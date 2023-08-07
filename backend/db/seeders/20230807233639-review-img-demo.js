@@ -1,6 +1,6 @@
 "use strict";
 
-const { Review } = require("../models");
+const { Booking } = require("../models");
 
 let options = {};
 if (process.env.NODE_ENV === "production") {
@@ -9,25 +9,25 @@ if (process.env.NODE_ENV === "production") {
 
 module.exports = {
    async up(queryInterface, Sequelize) {
-      await Review.bulkCreate(
+      await Booking.bulkCreate(
          [
             {
                spotId: 1,
-               userId: 2,
-               review: "magical place",
-               stars: 5,
+               userId: 1,
+               startDate: "2023-11-27",
+               endDate: "2023-12-15",
             },
             {
                spotId: 2,
-               userId: 3,
-               review: "friendly neighbors, quiet street",
-               stars: 4,
+               userId: 2,
+               startDate: "2023-09-27",
+               endDate: "2023-12-12",
             },
             {
                spotId: 3,
-               userId: 1,
-               review: "lovely deck, fun boat",
-               stars: 5,
+               userId: 3,
+               startDate: "2023-10-27",
+               endDate: "2023-12-29",
             },
          ],
          { validate: true }
@@ -35,7 +35,7 @@ module.exports = {
    },
 
    async down(queryInterface, Sequelize) {
-      options.tableName = "Reviews";
+      options.tableName = "Bookings";
       const Op = Sequelize.Op;
       return queryInterface.bulkDelete(options, {});
    },
