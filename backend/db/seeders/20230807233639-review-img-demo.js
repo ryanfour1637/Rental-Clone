@@ -1,6 +1,6 @@
 "use strict";
 
-const { Booking } = require("../models");
+const { ReviewImage } = require("../models");
 
 let options = {};
 if (process.env.NODE_ENV === "production") {
@@ -9,25 +9,19 @@ if (process.env.NODE_ENV === "production") {
 
 module.exports = {
    async up(queryInterface, Sequelize) {
-      await Booking.bulkCreate(
+      await ReviewImage.bulkCreate(
          [
             {
-               spotId: 1,
-               userId: 1,
-               startDate: "2023-11-27",
-               endDate: "2023-12-15",
+               reviewId: 1,
+               url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmVhdXRpZnVsJTIwaG91c2V8ZW58MHx8MHx8fDA%3D&w=1000&q=80",
             },
             {
-               spotId: 2,
-               userId: 2,
-               startDate: "2023-09-27",
-               endDate: "2023-12-12",
+               reviewId: 2,
+               url: "https://cdn.gaminggorilla.com/wp-content/uploads/2022/06/The-Best-Minecraft-House-Ideas.jpg",
             },
             {
-               spotId: 3,
-               userId: 3,
-               startDate: "2023-10-27",
-               endDate: "2023-12-29",
+               reviewId: 3,
+               url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK7jXC5vkYD1u1ilBQnrXl8O8l2tyEPlrpgw&usqp=CAU",
             },
          ],
          { validate: true }
@@ -35,7 +29,7 @@ module.exports = {
    },
 
    async down(queryInterface, Sequelize) {
-      options.tableName = "Bookings";
+      options.tableName = "ReviewImages";
       const Op = Sequelize.Op;
       return queryInterface.bulkDelete(options, {});
    },
