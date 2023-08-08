@@ -49,10 +49,11 @@ router.get("/", async (req, res) => {
    res.json(jsonSpots);
 });
 
-// router.get("/:spotId", async (req, res) => {
-//    const { spotId } = req.params;
+router.get("/:spotId", async (req, res) => {
+   const { spotId } = req.params;
+   
 
-// });
+});
 
 router.get("/current", restoreUser, async (req, res, next) => {
    const id = req.user.dataValues.id;
