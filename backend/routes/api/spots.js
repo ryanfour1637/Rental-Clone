@@ -1,8 +1,13 @@
 const express = require("express");
 const { Op } = require("sequelize");
 const { Spot, SpotImage, Review, User } = require("../../db/models");
-const { restoreUser } = require("../../utils/auth");
-const { reviewAvg, reviewAvgObj, validateNewSpot } = require("./helpersApi");
+const { restoreUser, requireAuth } = require("../../utils/auth");
+const {
+   reviewAvg,
+   reviewAvgObj,
+   validateNewSpot,
+   addPreview,
+} = require("./helpersApi");
 
 const router = express.Router();
 
@@ -18,18 +23,9 @@ router.get("/", async (req, res) => {
       ],
    });
 
-   const jsonSpots = reviewAvg(spotsArr);
+   const afterReview = reviewAvg(spotsArr);
 
-   jsonSpots.forEach((spot) => {
-      spot.SpotImages.forEach((image) => {
-         if (image.preview === true) {
-            spot.previewImage = image.url;
-         } else {
-            spot.previewImage = "no preview image found";
-         }
-      });
-      delete spot.SpotImages;
-   });
+   const jsonSpots = addPreview(afterReview);
 
    res.json(jsonSpots);
 });
@@ -56,7 +52,7 @@ router.post("/", restoreUser, validateNewSpot, async (req, res) => {
    res.json(newSpot);
 });
 
-router.get("/current", restoreUser, async (req, res, next) => {
+router.get("/current", requireAuth, async (req, res, next) => {
    const id = req.user.dataValues.id;
 
    const spotsArr = await Spot.findAll({
@@ -73,25 +69,18 @@ router.get("/current", restoreUser, async (req, res, next) => {
       ],
    });
 
-   const jsonSpots = reviewAvg(spotsArr);
+   const afterReview = reviewAvg(spotsArr);
 
-   jsonSpots.forEach((spot) => {
-      spot.SpotImages.forEach((image) => {
-         if (image.preview === true) {
-            spot.previewImage = image.url;
-         } else {
-            spot.previewImage = "no preview image found";
-         }
-      });
-      delete spot.SpotImages;
-   });
+   const jsonSpots = addPreview(afterReview);
 
    res.json(jsonSpots);
 });
 
-router.get(":spotId/images", async (req, res, next) => {
+router.post(":spotId/images", requireAuth, async (req, res, next) => {
    // need to add authentication and authorization to this endpoint.
    //tomorrows problem
+   const id = req.user.dataValues.id;
+   const spotId = req.params.spotId;
 });
 
 router.get("/:spotId", async (req, res) => {
