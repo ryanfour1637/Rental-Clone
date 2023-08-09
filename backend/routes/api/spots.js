@@ -130,7 +130,9 @@ router.put("/:spotId", requireAuth, validateNewSpot, async (req, res) => {
    const spotToEdit = await Spot.findByPk(spotId);
 
    if (!spotToEdit) {
-      message: "Spot could not be found";
+      res.json({
+         message: "Spot could not be found",
+      });
    } else {
       if (spotToEdit.ownerId !== id) {
          res.status(401);
