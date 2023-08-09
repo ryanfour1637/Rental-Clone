@@ -1,7 +1,7 @@
 const express = require("express");
 const { Op } = require("sequelize");
 const { Spot, SpotImage, Review, User } = require("../../db/models");
-const { restoreUser, requireAuth } = require("../../utils/auth");
+const {  requireAuth } = require("../../utils/auth");
 const {
    reviewAvg,
    reviewAvgObj,
@@ -187,6 +187,32 @@ router.get("/:spotId", async (req, res) => {
       res.json({
          message: "Spot could not be found",
       });
+   }
+});
+
+router.delete("/:spotId", requireAuth, async (req, res) => {
+   const spotId = parseInt(req.params.spotId);
+   const id = parseInt(req.user.dataValues.id);
+
+   const toDelete = await Spot.findByPk(spotId);
+
+   if (!toDelete) {
+      res.status(404);
+      res.json({
+         message: "Spot could not be found",
+      });
+   } else {
+      if (toDelete.ownerId !== id) {
+         res.status(401);
+         res.json({
+            message: "Unauthorized. Spot does not belong to current user.",
+         });
+      } else {
+         await toDelete.destroy();
+         res.json({
+            message: "Successfully deleted",
+         });
+      }
    }
 });
 
