@@ -76,12 +76,52 @@ router.get("/current", requireAuth, async (req, res, next) => {
    res.json(jsonSpots);
 });
 
-router.post(":spotId/images", requireAuth, async (req, res, next) => {
-   // need to add authentication and authorization to this endpoint.
-   //tomorrows problem
-   const id = req.user.dataValues.id;
-   const spotId = req.params.spotId;
+router.post("/:spotId/images", requireAuth, async (req, res, next) => {
+   const { url, preview } = req.body;
+   const id = parseInt(req.user.dataValues.id);
+   const spotId = parseInt(req.params.spotId);
+
+   const addToSpot = await Spot.findByPk(spotId, {
+      include: {
+         model: SpotImage,
+      },
+   });
+
+   if (!addToSpot) {
+      res.status(404);
+      res.json({
+         message: "Spot could not be found",
+      });
+   } else {
+      if (id !== jsonSpot.ownerId) {
+         res.status(401);
+         res.json({
+            message: "Unauthorized. Spot does not belong to current user.",
+         });
+      } else {
+         const jsonSpot = addToSpot.toJSON();
+         const newImage = SpotImage.create({
+            spotId,
+            url,
+            preview,
+         });
+
+         jsonSpot.SpotImages.push(newImage);
+
+         let toSend = jsonSpot.SpotImages;
+         let lastAdded = await toSend[toSend.length - 1];
+         const finalJSON = lastAdded.toJSON();
+
+         res.json({
+            id: finalJSON.id,
+            url: finalJSON.url,
+            preview: finalJSON.preview,
+         });
+      }
+   }
 });
+
+router.put("/:spotId", async (req, res) => {});
 
 router.get("/:spotId", async (req, res) => {
    const { spotId } = req.params;
