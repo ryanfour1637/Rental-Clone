@@ -89,6 +89,11 @@ router.get("/current", restoreUser, async (req, res, next) => {
    res.json(jsonSpots);
 });
 
+router.get(":spotId/images", async (req, res, next) => {
+   // need to add authentication and authorization to this endpoint.
+   //tomorrows problem
+});
+
 router.get("/:spotId", async (req, res) => {
    const { spotId } = req.params;
 
