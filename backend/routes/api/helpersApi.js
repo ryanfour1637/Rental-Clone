@@ -87,4 +87,24 @@ const addPreview = function (jsonSpots) {
    return jsonSpots;
 };
 
-module.exports = { reviewAvg, reviewAvgObj, validateNewSpot, addPreview };
+const addPreviewImgToReview = function (arr) {
+   const returnArr = [];
+
+   arr.forEach((review) => {
+      returnArr.push(review.toJSON());
+   });
+
+   returnArr.forEach((review) => {
+      review.Spot.previewImage = review.ReviewImages[0].url;
+   });
+
+   return returnArr;
+};
+
+module.exports = {
+   reviewAvg,
+   reviewAvgObj,
+   validateNewSpot,
+   addPreview,
+   addPreviewImgToReview,
+};

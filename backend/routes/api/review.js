@@ -1,12 +1,19 @@
 const express = require("express");
 const { Op } = require("sequelize");
-const { Review, User, Spot, ReviewImage } = require("../../db/models");
+const {
+   Review,
+   User,
+   Spot,
+   ReviewImage,
+   SpotImage,
+} = require("../../db/models");
 const { requireAuth } = require("../../utils/auth");
 const {
    reviewAvg,
    reviewAvgObj,
    validateNewSpot,
    addPreview,
+   addPreviewImgToReview,
 } = require("./helpersApi");
 
 const router = express.Router();
@@ -14,23 +21,40 @@ const router = express.Router();
 router.get("/current", requireAuth, async (req, res) => {
    const id = parseInt(req.user.dataValues.id);
 
-   const reviewsForUser = await Review.findAll({
+   const reviewsForUserArr = await Review.findAll({
       where: {
          userId: id,
       },
-      include: {
-         model: User,
-      },
-      include: {
-         model: Spot,
-      },
-      include: {
-         model: ReviewImage,
-         attributes: ["id", "url"],
-      },
+      include: [
+         {
+            model: User,
+            attributes: ["id", "firstName", "lastName"],
+         },
+         {
+            model: Spot,
+            attributes: [
+               "id",
+               "ownerId",
+               "address",
+               "city",
+               "state",
+               "country",
+               "lat",
+               "lng",
+               "name",
+               "price",
+            ],
+         },
+         {
+            model: ReviewImage,
+            attributes: ["id", "url"],
+         },
+      ],
    });
 
-   res.json(reviewsForUser);
+   const response = addPreviewImgToReview(reviewsForUserArr);
+
+   res.json(response);
 });
 
 module.exports = router;
