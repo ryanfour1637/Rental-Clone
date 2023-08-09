@@ -73,4 +73,18 @@ const validateNewSpot = [
    handleValidationErrors,
 ];
 
-module.exports = { reviewAvg, reviewAvgObj, validateNewSpot };
+const addPreview = function (jsonSpots) {
+   jsonSpots.forEach((spot) => {
+      spot.SpotImages.forEach((image) => {
+         if (image.preview === true) {
+            spot.previewImage = image.url;
+         } else {
+            spot.previewImage = "no preview image found";
+         }
+      });
+      delete spot.SpotImages;
+   });
+   return jsonSpots;
+};
+
+module.exports = { reviewAvg, reviewAvgObj, validateNewSpot, addPreview };

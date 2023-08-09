@@ -1,8 +1,13 @@
 const express = require("express");
 const { Op } = require("sequelize");
 const { Spot, SpotImage, Review, User } = require("../../db/models");
-const { restoreUser } = require("../../utils/auth");
-const { reviewAvg, reviewAvgObj, validateNewSpot } = require("./helpersApi");
+const { restoreUser, requireAuth } = require("../../utils/auth");
+const {
+   reviewAvg,
+   reviewAvgObj,
+   validateNewSpot,
+   addPreview,
+} = require("./helpersApi");
 
 const router = express.Router();
 
@@ -18,18 +23,9 @@ router.get("/", async (req, res) => {
       ],
    });
 
-   const jsonSpots = reviewAvg(spotsArr);
+   const afterReview = reviewAvg(spotsArr);
 
-   jsonSpots.forEach((spot) => {
-      spot.SpotImages.forEach((image) => {
-         if (image.preview === true) {
-            spot.previewImage = image.url;
-         } else {
-            spot.previewImage = "no preview image found";
-         }
-      });
-      delete spot.SpotImages;
-   });
+   const jsonSpots = addPreview(afterReview);
 
    res.json(jsonSpots);
 });
@@ -56,7 +52,7 @@ router.post("/", restoreUser, validateNewSpot, async (req, res) => {
    res.json(newSpot);
 });
 
-router.get("/current", restoreUser, async (req, res, next) => {
+router.get("/current", requireAuth, async (req, res, next) => {
    const id = req.user.dataValues.id;
 
    const spotsArr = await Spot.findAll({
@@ -73,21 +69,59 @@ router.get("/current", restoreUser, async (req, res, next) => {
       ],
    });
 
-   const jsonSpots = reviewAvg(spotsArr);
+   const afterReview = reviewAvg(spotsArr);
 
-   jsonSpots.forEach((spot) => {
-      spot.SpotImages.forEach((image) => {
-         if (image.preview === true) {
-            spot.previewImage = image.url;
-         } else {
-            spot.previewImage = "no preview image found";
-         }
-      });
-      delete spot.SpotImages;
-   });
+   const jsonSpots = addPreview(afterReview);
 
    res.json(jsonSpots);
 });
+
+router.post("/:spotId/images", requireAuth, async (req, res, next) => {
+   const { url, preview } = req.body;
+   const id = parseInt(req.user.dataValues.id);
+   const spotId = parseInt(req.params.spotId);
+
+   const addToSpot = await Spot.findByPk(spotId, {
+      include: {
+         model: SpotImage,
+      },
+   });
+
+   if (!addToSpot) {
+      res.status(404);
+      res.json({
+         message: "Spot could not be found",
+      });
+   } else {
+      if (id !== jsonSpot.ownerId) {
+         res.status(401);
+         res.json({
+            message: "Unauthorized. Spot does not belong to current user.",
+         });
+      } else {
+         const jsonSpot = addToSpot.toJSON();
+         const newImage = SpotImage.create({
+            spotId,
+            url,
+            preview,
+         });
+
+         jsonSpot.SpotImages.push(newImage);
+
+         let toSend = jsonSpot.SpotImages;
+         let lastAdded = await toSend[toSend.length - 1];
+         const finalJSON = lastAdded.toJSON();
+
+         res.json({
+            id: finalJSON.id,
+            url: finalJSON.url,
+            preview: finalJSON.preview,
+         });
+      }
+   }
+});
+
+router.put("/:spotId", async (req, res) => {});
 
 router.get("/:spotId", async (req, res) => {
    const { spotId } = req.params;
