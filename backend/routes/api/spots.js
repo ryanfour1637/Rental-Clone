@@ -1,7 +1,7 @@
 const express = require("express");
 const { Op } = require("sequelize");
 const { Spot, SpotImage, Review, User } = require("../../db/models");
-const { restoreUser, requireAuth } = require("../../utils/auth");
+const {  requireAuth } = require("../../utils/auth");
 const {
    reviewAvg,
    reviewAvgObj,
