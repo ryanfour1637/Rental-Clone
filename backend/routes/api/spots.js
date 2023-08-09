@@ -159,36 +159,33 @@ router.put("/:spotId", requireAuth, validateNewSpot, async (req, res) => {
 });
 
 router.get("/:spotId", async (req, res) => {
-   const { spotId } = req.params;
+   const spotId = parseInt(req.params.spotId);
 
-   parseInt(spotId);
+   const detailsSpot = await Spot.findByPk(spotId, {
+      include: [
+         {
+            model: Review,
+         },
+         {
+            model: SpotImage,
+            attributes: ["id", "url", "preview"],
+         },
+         {
+            model: User,
+            as: "Owner",
+            attributes: ["id", "firstName", "lastName"],
+         },
+      ],
+   });
 
-   try {
-      const detailsSpot = await Spot.findByPk(spotId, {
-         include: [
-            {
-               model: Review,
-            },
-            {
-               model: SpotImage,
-               attributes: ["id", "url", "preview"],
-            },
-            {
-               model: User,
-               as: "owner",
-               attributes: ["id", "firstName", "lastName"],
-            },
-         ],
-      });
-
-      const jsonSpots = reviewAvgObj(detailsSpot);
-
-      res.json(jsonSpots);
-   } catch (error) {
+   if (!detailsSpot) {
       res.status(404);
       res.json({
          message: "Spot could not be found",
       });
+   } else {
+      const jsonSpots = reviewAvgObj(detailsSpot);
+      res.json(jsonSpots);
    }
 });
 
