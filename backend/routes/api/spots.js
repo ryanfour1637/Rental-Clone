@@ -30,7 +30,7 @@ router.get("/", async (req, res) => {
    res.json(jsonSpots);
 });
 
-router.post("/", restoreUser, validateNewSpot, async (req, res) => {
+router.post("/", requireAuth, validateNewSpot, async (req, res) => {
    const id = req.user.dataValues.id;
    const { address, city, state, country, lat, lng, name, description, price } =
       req.body;
@@ -93,7 +93,7 @@ router.post("/:spotId/images", requireAuth, async (req, res, next) => {
          message: "Spot could not be found",
       });
    } else {
-      if (id !== jsonSpot.ownerId) {
+      if (id !== addToSpot.ownerId) {
          res.status(401);
          res.json({
             message: "Unauthorized. Spot does not belong to current user.",
@@ -121,7 +121,40 @@ router.post("/:spotId/images", requireAuth, async (req, res, next) => {
    }
 });
 
-router.put("/:spotId", async (req, res) => {});
+router.put("/:spotId", requireAuth, validateNewSpot, async (req, res) => {
+   const spotId = parseInt(req.params.spotId);
+   const id = parseInt(req.user.dataValues.id);
+   const { address, city, state, country, lat, lng, name, description, price } =
+      req.body;
+
+   const spotToEdit = await Spot.findByPk(spotId);
+
+   if (!spotToEdit) {
+      message: "Spot could not be found";
+   } else {
+      if (spotToEdit.ownerId !== id) {
+         res.status(401);
+         res.json({
+            message: "Unauthorized. Spot does not belong to current user.",
+         });
+      } else {
+         spotToEdit.set({
+            address,
+            city,
+            state,
+            country,
+            lat,
+            lng,
+            name,
+            description,
+            price,
+         });
+
+         spotToEdit.save();
+         res.json(spotToEdit);
+      }
+   }
+});
 
 router.get("/:spotId", async (req, res) => {
    const { spotId } = req.params;
