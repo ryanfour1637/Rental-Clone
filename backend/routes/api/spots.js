@@ -1,6 +1,12 @@
 const express = require("express");
 const { Op } = require("sequelize");
-const { Spot, SpotImage, Review, User } = require("../../db/models");
+const {
+   Spot,
+   SpotImage,
+   Review,
+   User,
+   ReviewImage,
+} = require("../../db/models");
 const { requireAuth } = require("../../utils/auth");
 const {
    reviewAvg,
@@ -212,6 +218,35 @@ router.delete("/:spotId", requireAuth, async (req, res) => {
             message: "Successfully deleted",
          });
       }
+   }
+});
+
+router.get("/:spotId/reviews", async (req, res) => {
+   const spotId = req.params.spotId;
+
+   const reviewsForSpotArr = await Review.findAll({
+      where: {
+         spotId,
+      },
+      include: [
+         {
+            model: User,
+            attributes: ["id", "firstName", "lastName"],
+         },
+         {
+            model: ReviewImage,
+            attributes: ["id", "url"],
+         },
+      ],
+   });
+
+   if (!reviewsForSpotArr) {
+      res.status(404);
+      res.json({
+         message: "Spot could not be found",
+      });
+   } else {
+      res.json(reviewsForSpotArr);
    }
 });
 
