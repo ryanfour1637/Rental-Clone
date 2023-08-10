@@ -1,12 +1,14 @@
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 
+// switch all functions from using forEach to using For LET
+
 const reviewAvg = function (spotsArr) {
    const jsonSpots = [];
 
-   spotsArr.forEach((spot) => {
+   for (let spot of spotsArr) {
       jsonSpots.push(spot.toJSON());
-   });
+   }
 
    jsonSpots.forEach((spot) => {
       let count = 0;
