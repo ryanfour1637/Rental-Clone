@@ -124,4 +124,29 @@ router.post("/:reviewId/images", requireAuth, async (req, res) => {
    }
 });
 
+router.put("/:reviewId", requireAuth, async (req, res) => {
+   const id = parseInt(req.user.dataValues.id);
+   const reviewId = parseInt(req.params.reviewId);
+   const { review, stars } = req.body;
+
+   const currReview = await Review.findByPk(reviewId);
+
+   if (!currReview) {
+      res.status(404);
+      res.json({
+         message: "Review could not be found.",
+      });
+   } else {
+      if (currReview.userId !== id) {
+         res.status(401);
+         res.json({
+            message: "Unauthorized, only owner of review can edit it",
+         });
+      } else {
+         (currReview.review = review), (currReview.stars = stars);
+         res.json(currReview);
+      }
+   }
+});
+
 module.exports = router;
