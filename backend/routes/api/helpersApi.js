@@ -1,5 +1,6 @@
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
+const { json } = require("sequelize");
 
 // switch all functions from using forEach to using For LET
 
@@ -89,20 +90,6 @@ const addPreview = function (jsonSpots) {
    return jsonSpots;
 };
 
-const addPreviewImgToReview = function (arr) {
-   const returnArr = [];
-
-   arr.forEach((review) => {
-      returnArr.push(review.toJSON());
-   });
-
-   returnArr.forEach((review) => {
-      review.Spot.previewImage = review.ReviewImages[0].url;
-   });
-
-   return returnArr;
-};
-
 const validateReviews = [
    check("review")
       .exists({ checkFalsy: true })
@@ -119,6 +106,5 @@ module.exports = {
    reviewAvgObj,
    validateNewSpot,
    addPreview,
-   addPreviewImgToReview,
    validateReviews,
 };
