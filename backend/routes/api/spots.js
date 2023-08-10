@@ -251,13 +251,6 @@ router.get("/:spotId/reviews", async (req, res) => {
    }
 });
 
-<<<<<<< HEAD
-router.post("/:spotId/reviews", async(req, res) => {
-      const spotId = parseInt(req.params.spotId);
-      const id = parseInt(req.user.dataValues.id);
-
-});
-=======
 router.post(
    "/:spotId/reviews",
    requireAuth,
@@ -300,5 +293,4 @@ router.post(
       }
    }
 );
->>>>>>> dev
 module.exports = router;
