@@ -13,6 +13,7 @@ const {
    reviewAvgObj,
    validateNewSpot,
    addPreview,
+   validateReviews,
 } = require("./helpersApi");
 
 const router = express.Router();
@@ -124,7 +125,7 @@ router.post("/:reviewId/images", requireAuth, async (req, res) => {
    }
 });
 
-router.put("/:reviewId", requireAuth, async (req, res) => {
+router.put("/:reviewId", requireAuth, validateReviews, async (req, res) => {
    const id = parseInt(req.user.dataValues.id);
    const reviewId = parseInt(req.params.reviewId);
    const { review, stars } = req.body;
