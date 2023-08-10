@@ -13,6 +13,7 @@ const {
    reviewAvgObj,
    validateNewSpot,
    addPreview,
+   validateReviews,
 } = require("./helpersApi");
 
 const router = express.Router();
@@ -250,9 +251,54 @@ router.get("/:spotId/reviews", async (req, res) => {
    }
 });
 
+<<<<<<< HEAD
 router.post("/:spotId/reviews", async(req, res) => {
       const spotId = parseInt(req.params.spotId);
       const id = parseInt(req.user.dataValues.id);
 
 });
+=======
+router.post(
+   "/:spotId/reviews",
+   requireAuth,
+   validateReviews,
+   async (req, res) => {
+      const spotId = parseInt(req.params.spotId);
+      const id = parseInt(req.user.dataValues.id);
+      const { review, stars } = req.body;
+
+      const confirmSpot = await Spot.findByPk(spotId);
+
+      if (!confirmSpot) {
+         res.status(404);
+         res.json({
+            message: "Spot could not be found",
+         });
+      } else {
+         const currReviewsOfSpot = await Review.findAll({
+            where: {
+               spotId,
+               userId: id,
+            },
+         });
+
+         if (currReviewsOfSpot.length > 0) {
+            res.status(500);
+            res.json({
+               message: "User already has a review for this spot",
+            });
+         } else {
+            const newReview = await Review.create({
+               spotId,
+               userId: id,
+               review,
+               stars,
+            });
+
+            res.json(newReview);
+         }
+      }
+   }
+);
+>>>>>>> dev
 module.exports = router;
