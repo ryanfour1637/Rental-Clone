@@ -6,6 +6,7 @@ const {
    Review,
    User,
    ReviewImage,
+   Booking,
 } = require("../../db/models");
 const { requireAuth } = require("../../utils/auth");
 const {
@@ -17,6 +18,41 @@ const {
 } = require("./helpersApi");
 
 const router = express.Router();
+
+router.get("/:spotId/bookings", requireAuth, async (req, res) => {
+   const id = parseInt(req.user.dataValues.id);
+   const spotId = parseInt(req.params.spotId);
+
+   const owner = await Booking.findAll({
+      where: {
+         spotId,
+      },
+      include: {
+         model: User,
+         attributes: ["id", "firstName", "lastName"],
+      },
+   });
+
+   const nonOwner = await Booking.findAll({
+      where: {
+         spotId,
+      },
+      attributes: ["spotId", "startDate", "endDate"],
+   });
+
+   if (owner.length < 1) {
+      res.status(404);
+      res.json({
+         message: "Spot could not be found",
+      });
+   } else {
+      if (id === owner[0].userId) {
+         res.json(owner);
+      } else {
+         res.json(nonOwner);
+      }
+   }
+});
 
 router.get("/", async (req, res) => {
    const spotsArr = await Spot.findAll({
@@ -293,4 +329,5 @@ router.post(
       }
    }
 );
+
 module.exports = router;
