@@ -176,6 +176,13 @@ router.delete("/:bookingId", requireAuth, async (req, res) => {
          model: Spot,
       },
    });
+   if (!bookingToDelete) {
+      res.status(404),
+         res.json({
+            message: "Booking could not be found",
+         });
+      return;
+   }
 
    let jsonBookingToDelete = bookingToDelete.toJSON();
 
@@ -188,14 +195,6 @@ router.delete("/:bookingId", requireAuth, async (req, res) => {
          message:
             "Unauthorized, booking must belong to the current user or the Spot must belong to the current user",
       });
-      return;
-   }
-
-   if (!bookingToDelete) {
-      res.status(404),
-         res.json({
-            message: "Booking could not be found",
-         });
       return;
    }
 
