@@ -101,7 +101,6 @@ const validateReviews = [
    handleValidationErrors,
 ];
 
-
 module.exports = {
    reviewAvg,
    reviewAvgObj,
