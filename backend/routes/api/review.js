@@ -71,7 +71,9 @@ router.get("/current", requireAuth, async (req, res) => {
       }
    } catch {}
 
-   res.json(finalArr);
+   let finalObj = {};
+   finalObj.Reviews = finalArr;
+   res.json(finalObj);
 });
 
 router.post("/:reviewId/images", requireAuth, async (req, res) => {

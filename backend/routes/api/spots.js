@@ -40,6 +40,7 @@ router.get("/:spotId/bookings", requireAuth, async (req, res) => {
       attributes: ["spotId", "startDate", "endDate"],
    });
 
+   let finalObj = {};
    if (owner.length < 1) {
       res.status(404);
       res.json({
@@ -47,15 +48,63 @@ router.get("/:spotId/bookings", requireAuth, async (req, res) => {
       });
    } else {
       if (id === owner[0].userId) {
-         res.json(owner);
+         finalObj.Bookings = owner;
+         res.json(finalObj);
       } else {
-         res.json(nonOwner);
+         finalObj.Bookings = nonOwner;
+         res.json(finalObj);
       }
    }
 });
 
 router.get("/", async (req, res) => {
-   const spotsArr = await Spot.findAll({
+   let { page, size } = req.query;
+
+   if (page < 1 && size < 1) {
+      res.status(400);
+      res.json({
+         message: "Bad Request",
+         errors: {
+            page: "Page must be greater than or equal to 1",
+            size: "Size must be greater than or equal to 1",
+         },
+      });
+      return;
+   } else if (page < 1) {
+      res.status(400);
+      res.json({
+         message: "Bad Request",
+         errors: {
+            page: "Page must be greater than or equal to 1",
+         },
+      });
+      return;
+   } else if (size < 1) {
+      res.status(400);
+      res.json({
+         message: "Bad Request",
+         errors: {
+            size: "Size must be greater than or equal to 1",
+         },
+      });
+      return;
+   }
+
+   if (!page) page = 1;
+   if (!size) size = 20;
+   page = parseInt(page);
+   size = parseInt(size);
+
+   if (page > 10) page = 10;
+   if (size > 20) size = 20;
+
+   const pagination = {};
+   if (page >= 1 && size >= 1) {
+      pagination.limit = size;
+      pagination.offset = size * (page - 1);
+   }
+
+   spotsArr = await Spot.findAll({
       include: [
          {
             model: SpotImage,
@@ -64,13 +113,19 @@ router.get("/", async (req, res) => {
             model: Review,
          },
       ],
+      ...pagination,
    });
 
    const afterReview = reviewAvg(spotsArr);
 
-   const jsonSpots = addPreview(afterReview);
+   let finalObj = {};
+   let jsonSpots = addPreview(afterReview);
 
-   res.json(jsonSpots);
+   finalObj.Spots = jsonSpots;
+   finalObj.page = page;
+   finalObj.size = size;
+
+   res.json(finalObj);
 });
 
 router.post("/", requireAuth, validateNewSpot, async (req, res) => {
@@ -116,7 +171,10 @@ router.get("/current", requireAuth, async (req, res, next) => {
 
    const jsonSpots = addPreview(afterReview);
 
-   res.json(jsonSpots);
+   finalObj = {};
+   finalObj.Spots = jsonSpots;
+
+   res.json(finalObj);
 });
 
 router.post("/:spotId/images", requireAuth, async (req, res, next) => {
@@ -228,7 +286,7 @@ router.get("/:spotId", requireAuth, async (req, res) => {
       });
    } else {
       const jsonSpots = reviewAvgObj(detailsSpot);
-      res.json(jsonSpots);
+      res.json(jsonSpots[0]);
    }
 });
 
@@ -278,7 +336,9 @@ router.get("/:spotId/reviews", async (req, res) => {
    });
 
    if (reviewsForSpotArr.length >= 1) {
-      res.json(reviewsForSpotArr);
+      let finalObj = {};
+      finalObj.Reviews = reviewsForSpotArr;
+      res.json(finalObj);
    } else {
       res.status(404);
       res.json({

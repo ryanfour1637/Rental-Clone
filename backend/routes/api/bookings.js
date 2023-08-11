@@ -68,7 +68,10 @@ router.get("/current", requireAuth, async (req, res) => {
       }
    }
 
-   res.json(jsonArr);
+   const finalObj = {};
+   finalObj.Bookings = jsonArr;
+
+   res.json(finalObj);
 });
 
 router.put("/:bookingId", requireAuth, async (req, res) => {
