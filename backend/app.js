@@ -25,7 +25,7 @@ app.use(
       policy: "cross-origin",
    })
 );
-// Set the _csrf token and create req.csrfToken method
+// Set the _csrf token and create req.csrfToken metho
 app.use(
    csurf({
       cookie: {
