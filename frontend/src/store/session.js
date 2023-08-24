@@ -32,7 +32,7 @@ export const thunkRestoreUser = () => async (dispatch) => {
    return res;
 };
 
-export const thunkSignUp = (user) => async (dispatch) => {
+export const thunkSignup = (user) => async (dispatch) => {
    const { username, firstName, lastName, email, password } = user;
    const res = await csrfFetch("/api/users", {
       method: "POST",
