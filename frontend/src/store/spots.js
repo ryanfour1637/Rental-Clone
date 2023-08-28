@@ -7,6 +7,7 @@ const UPDATE_SPOT = "spots/actionUpdateSpot";
 const DELETE_SPOT = "spots/actionDeleteSpot";
 
 const actionReadSpots = (spots) => {
+   console.log("actionreadspots running");
    return {
       type: READ_ALL_SPOTS,
       payload: spots,
@@ -42,6 +43,7 @@ const actionDeleteSpot = (spot) => {
 };
 
 export const thunkReadSpots = () => async (dispatch) => {
+   console.log("inside thunkreadspots");
    const res = await csrfFetch("/api/spots");
    const data = await res.json();
    dispatch(actionReadSpots(data.Spots));
@@ -75,7 +77,7 @@ export const thunkCreateSpot = (spot) => async (dispatch) => {
    dispatch(actionCreateSpot(data));
 };
 
-// left off here on this page. Trying to figure out how I am going to set the spot but I think I can do it with the readonespot function above. 
+// left off here on this page. Trying to figure out how I am going to set the spot but I think I can do it with the readonespot function above.
 export const thunkUpdateSpot = (spot) => async (dispatch) => {
    const { address, city, state, country, lat, lng, name, description, price } =
       spot;
@@ -99,10 +101,8 @@ export const thunkUpdateSpot = (spot) => async (dispatch) => {
 };
 
 const initialState = {
-   spots: {
-      allSpots: {},
-      singleSpot: {},
-   },
+   allSpots: {},
+   singleSpot: {},
 };
 
 const spotsReducer = (state = initialState, action) => {
@@ -111,9 +111,7 @@ const spotsReducer = (state = initialState, action) => {
       case READ_ALL_SPOTS:
          // make it into an object and normalize
          newState = Object.assign({}, state);
-         action.payload.forEach(
-            (spot) => (newState.spots.allSpots[spot.id] = spot)
-         );
+         action.payload.forEach((spot) => (newState.allSpots[spot.id] = spot));
          return newState;
       case READ_ONE_SPOT:
          newState = Object.assign({}, state);
