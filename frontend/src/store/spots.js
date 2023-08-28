@@ -7,7 +7,6 @@ const UPDATE_SPOT = "spots/actionUpdateSpot";
 const DELETE_SPOT = "spots/actionDeleteSpot";
 
 const actionReadSpots = (spots) => {
-   console.log("actionreadspots running");
    return {
       type: READ_ALL_SPOTS,
       payload: spots,
@@ -49,8 +48,11 @@ export const thunkReadSpots = () => async (dispatch) => {
 };
 
 export const thunkReadOneSpot = (spotId) => async (dispatch) => {
+   console.log("thunk running");
    const res = await csrfFetch(`/api/spots/${spotId}`);
+   console.log("this is the res", res);
    const data = await res.json();
+   console.log("this is the data", data);
    dispatch(actionReadOneSpot(data));
 };
 
@@ -114,11 +116,11 @@ const spotsReducer = (state = initialState, action) => {
          return newState;
       case READ_ONE_SPOT:
          newState = Object.assign({}, state);
-         newState.spots.singleSpot = action.payload;
+         newState.singleSpot = action.payload;
          return newState;
       case CREATE_SPOT:
          newState = Object.assign({}, state);
-         newState.spots.allSpots[action.payload.id] = action.payload;
+         newState.allSpots[action.payload.id] = action.payload;
          return newState;
       default:
          return state;
