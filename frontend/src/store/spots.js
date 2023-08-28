@@ -43,8 +43,7 @@ const actionDeleteSpot = (spot) => {
 };
 
 export const thunkReadSpots = () => async (dispatch) => {
-   console.log("inside thunkreadspots");
-   const res = await csrfFetch("/api/spots");
+   const res = await csrfFetch("/api/spots?size=8");
    const data = await res.json();
    dispatch(actionReadSpots(data.Spots));
 };

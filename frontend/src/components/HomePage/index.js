@@ -8,16 +8,12 @@ function HomePage() {
    console.log("component rendering");
    const dispatch = useDispatch();
    const spots = useSelector((state) => state.spots.allSpots);
-   console.log("this is spots", spots);
-   let spotsArr;
+   let spotsArr = [];
    if (Object.keys(spots).length !== 0) {
       spotsArr = Object.values(spots);
    }
 
-   console.log("this is the spots array", spotsArr);
-
    useEffect(() => {
-      console.log("use effect running?");
       dispatch(thunkReadSpots());
    }, [dispatch]);
 
