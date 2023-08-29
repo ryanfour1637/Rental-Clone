@@ -13,26 +13,28 @@ function HomePage() {
       dispatch(thunkReadSpots());
    }, [dispatch]);
 
-   if (!spots || Object.keys(spots).length === 0) {
+   if (Object.keys(spots).length === 0) {
       return null;
    }
-   let spotsArr = Object.values(spots);
+   const spotsArr = Object.values(spots);
 
    return (
       <div>
-         <h2>HOME</h2>
-         {spotsArr.map((spot) => (
-            <div key={spot.id}>
-               <NavLink to={`/spots/${spot.id}`}>
-                  <img src={spot.previewImage} />
-               </NavLink>
-               <div>
-                  <p>{`${spot.city}, ${spot.state}`}</p>
-                  <p>{spot.avgRating || "Be the first to review!"}</p>
+         {spotsArr &&
+            spotsArr.map((spot) => (
+               <div key={spot.id}>
+                  <NavLink to={`/spots/${spot.id}`}>
+                     <img src={spot.previewImage} />
+                  </NavLink>
+                  <div>
+                     <p>{`${spot.city}, ${spot.state}`}</p>
+                     <p>{spot.avgRating || "New"}</p>
+                  </div>
+                  <div>
+                     <p>{`$${spot.price} night`}</p>
+                  </div>
                </div>
-               <p>{`$${spot.price} night`}</p>
-            </div>
-         ))}
+            ))}
       </div>
    );
 }

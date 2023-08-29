@@ -130,8 +130,7 @@ router.get("/", async (req, res) => {
 
 router.post("/", requireAuth, validateNewSpot, async (req, res) => {
    const id = req.user.dataValues.id;
-   const { address, city, state, country, lat, lng, name, description, price } =
-      req.body;
+   const { address, city, state, country, name, description, price } = req.body;
 
    const newSpot = await Spot.create({
       ownerId: id,
@@ -139,8 +138,6 @@ router.post("/", requireAuth, validateNewSpot, async (req, res) => {
       city,
       state,
       country,
-      lat,
-      lng,
       name,
       description,
       price,
@@ -182,6 +179,8 @@ router.post("/:spotId/images", requireAuth, async (req, res, next) => {
    const id = parseInt(req.user.dataValues.id);
    const spotId = parseInt(req.params.spotId);
 
+   console.log(req.params.spotId);
+   console.log("is spotId working right?", spotId);
    const addToSpot = await Spot.findByPk(spotId, {
       include: {
          model: SpotImage,
@@ -225,8 +224,7 @@ router.post("/:spotId/images", requireAuth, async (req, res, next) => {
 router.put("/:spotId", requireAuth, validateNewSpot, async (req, res) => {
    const spotId = parseInt(req.params.spotId);
    const id = parseInt(req.user.dataValues.id);
-   const { address, city, state, country, lat, lng, name, description, price } =
-      req.body;
+   const { address, city, state, country, name, description, price } = req.body;
 
    const spotToEdit = await Spot.findByPk(spotId);
 
@@ -246,8 +244,6 @@ router.put("/:spotId", requireAuth, validateNewSpot, async (req, res) => {
             city,
             state,
             country,
-            lat,
-            lng,
             name,
             description,
             price,

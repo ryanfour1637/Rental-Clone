@@ -14,15 +14,25 @@ function SingleSpot() {
    }, [dispatch, spotId]);
 
    if (!spot || Object.keys(spot).length === 0) {
-      return <div>Loading...</div>;
+      return null;
    }
 
+   const images = spot.SpotImages;
+   const rightImages = [];
+   for (let i = 1; i < images.length; i++) {
+      let imageToMove = images[i];
+      rightImages.push(imageToMove);
+   }
+   
    return (
       <div>
          <h2>Name - figure out right thing here</h2>
          <p>{`${spot.city}, ${spot.state}, ${spot.country}`}</p>
          <div>
-            {spot.SpotImages.map((image, index) => (
+            <img src={images[0].url} />
+         </div>
+         <div>
+            {rightImages.map((image, index) => (
                <img key={index} src={image.url} alt="Spot" />
             ))}
          </div>
@@ -32,9 +42,11 @@ function SingleSpot() {
                <p>{spot.description}</p>
             </div>
             <div>
-               <p>{spot.price}</p>
-               <p>{spot.avgRating || "Be the first to review!"}</p>
-               <p>{spot.numReviews || ""}</p>
+               <div>
+                  <p>{spot.price}</p>
+                  <p>{spot.avgRating || "Be the first to review!"}</p>
+                  <p>{spot.numReviews || ""}</p>
+               </div>
                <button>Reserve</button>
             </div>
          </div>

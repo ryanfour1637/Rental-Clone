@@ -5,6 +5,7 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import HomePage from "./components/HomePage";
 import SingleSpot from "./components/SingleSpot";
+import createNewSpot from "./components/NewSpotComponent";
 
 function App() {
    const dispatch = useDispatch();
@@ -18,7 +19,11 @@ function App() {
          <Navigation isLoaded={isLoaded} />
          <Route exact path="/" component={HomePage} />
          <Route path="/spots/:spotId" component={SingleSpot} />
-         {isLoaded && <Switch></Switch>}
+         {isLoaded && (
+            <Switch>
+               <Route exact path="/spots" component={createNewSpot} />
+            </Switch>
+         )}
       </>
    );
 }
