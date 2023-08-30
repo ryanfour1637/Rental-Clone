@@ -14,7 +14,7 @@ export const thunkReadReviewsOneSpot = (spotId) => async (dispatch) => {
 
    if (res.ok) {
       const data = await res.json();
-      dispatch(actionReadReviewsOneSpot(data));
+      dispatch(actionReadReviewsOneSpot(data.Reviews));
       return data;
    } else {
       const errors = await res.json();

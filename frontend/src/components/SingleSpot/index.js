@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import "./singlespot.css";
 import { useParams } from "react-router-dom";
 import { thunkReadOneSpot } from "../../store/spots";
+import ReviewsComponent from "../ReviewsComponent";
 
 function SingleSpot() {
    const dispatch = useDispatch();
@@ -23,7 +24,7 @@ function SingleSpot() {
       let imageToMove = images[i];
       rightImages.push(imageToMove);
    }
-   
+
    return (
       <div>
          <h2>Name - figure out right thing here</h2>
@@ -50,6 +51,7 @@ function SingleSpot() {
                <button>Reserve</button>
             </div>
          </div>
+         <ReviewsComponent />
       </div>
    );
 }
