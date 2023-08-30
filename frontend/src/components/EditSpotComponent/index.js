@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import "./newSpotComponent.css";
 import {
    thunkCreateSpot,
    thunkAddImage,
@@ -9,11 +8,14 @@ import {
    thunkReadSpots,
    thunkReadOneSpot,
 } from "../../store/spots";
-import { checkForInputErrors } from "./helpers";
+import { checkForInputErrors } from "../NewSpotComponent/helpers";
 
-function CreateNewSpot() {
+function EditSpot() {
    const history = useHistory();
    const dispatch = useDispatch();
+
+   const { id } = useParams();
+   const singleSpot = useSelector((state) => state.spots.allSpots[id]);
 
    const [country, setCountry] = useState("");
    const [address, setAddress] = useState("");
@@ -29,6 +31,26 @@ function CreateNewSpot() {
    const [image5, setImage5] = useState("");
    const [errors, setErrors] = useState({});
    const [update, setUpdate] = useState(false);
+
+   useEffect(() => {
+      dispatch(thunkReadSpots());
+   }, [dispatch]);
+
+   useEffect(() => {
+      if (!singleSpot) {
+         console.log("no spot found");
+      } else {
+         setUpdate(true);
+         setCountry(singleSpot.country);
+         setAddress(singleSpot.address);
+         setCity(singleSpot.city);
+         setState(singleSpot.state);
+         setDescription(singleSpot.description);
+         setTitle(singleSpot.name);
+         setPrice(singleSpot.price);
+         setPreviewImage(singleSpot.previewImage);
+      }
+   }, [singleSpot]);
 
    const handleSubmit = async (e) => {
       // prevent the page from reloading
@@ -52,64 +74,33 @@ function CreateNewSpot() {
       setErrors(errors);
 
       // this is the post/put to the db depending on if its an update or not
-      if (Object.values(errors).length > 0) {
-      } else {
-         const newSpot = {
-            address,
-            city,
-            state,
-            country,
-            name: title,
-            description,
-            price,
-         };
-         const returnSpot = await dispatch(thunkCreateSpot(newSpot));
+      if (update) {
+         if (Object.values(errors).length > 0) {
+         } else {
+            const editedSpot = {
+               id,
+               address,
+               city,
+               state,
+               country,
+               name: title,
+               description,
+               price,
+            };
+            const res = await dispatch(thunkUpdateSpot(editedSpot));
+            // i think this is how i get the error but will need to console log in the morning to be sure. Need to error handle on this side as well and display back to the user somehow.
 
-         // make these an array and modify backend to accept an array of images and put them in the DB. which index I want as a preview
-         if (previewImage.length > 0) {
-            const createPreviewImage = {
-               url: previewImage,
-               preview: true,
-            };
-            dispatch(thunkAddImage(createPreviewImage, returnSpot));
+            //also may not need to do this because if the person is never able to access the page at all to update it, it will not matter. check into if this is an option.
+            history.push(`/spots/${id}`);
+            // pick up here in the morning, I need to find out how to set an unauthorized error from the backend because I am the wrong user. In theory I shouldnt even be able to access this page at all. Figure out how to do that.
          }
-
-         if (image2.length > 0) {
-            const img = {
-               url: image2,
-               preview: false,
-            };
-            dispatch(thunkAddImage(img, returnSpot));
-         }
-         if (image3.length > 0) {
-            const img = {
-               url: image3,
-               preview: false,
-            };
-            dispatch(thunkAddImage(img, returnSpot));
-         }
-         if (image4.length > 0) {
-            const img = {
-               url: image4,
-               preview: false,
-            };
-            dispatch(thunkAddImage(img, returnSpot));
-         }
-         if (image5.length > 0) {
-            const img = {
-               url: image5,
-               preview: false,
-            };
-            dispatch(thunkAddImage(img, returnSpot));
-         }
-         history.push(`/spots/${returnSpot.id}`);
       }
    };
 
    return (
       <>
          <div>
-            <h1>Create a new Spot</h1>
+            <h1>Update your Spot</h1>
             <h2>Where's your place located?</h2>
             <h4>
                Guests will only get your exact address once they booked a
@@ -256,4 +247,4 @@ function CreateNewSpot() {
    );
 }
 
-export default CreateNewSpot;
+export default EditSpot;

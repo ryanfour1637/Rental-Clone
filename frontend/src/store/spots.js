@@ -50,15 +50,29 @@ const actionAddImage = (img) => {
 };
 
 export const thunkReadSpots = () => async (dispatch) => {
-   const res = await csrfFetch("/api/spots?size=8");
-   const data = await res.json();
-   dispatch(actionReadSpots(data.Spots));
+   const res = await csrfFetch("/api/spots");
+
+   if (res.ok) {
+      const data = await res.json();
+      dispatch(actionReadSpots(data.Spots));
+      return data;
+   } else {
+      const errors = await res.json();
+      return errors;
+   }
 };
 
 export const thunkReadOneSpot = (spotId) => async (dispatch) => {
    const res = await csrfFetch(`/api/spots/${spotId}`);
-   const data = await res.json();
-   dispatch(actionReadOneSpot(data));
+
+   if (res.ok) {
+      const data = await res.json();
+      dispatch(actionReadOneSpot(data));
+      return data;
+   } else {
+      const errors = await res.json();
+      return errors;
+   }
 };
 
 export const thunkCreateSpot = (spot) => async (dispatch) => {
@@ -94,11 +108,16 @@ export const thunkAddImage = (img, spot) => async (dispatch) => {
       method: "POST",
       body: JSON.stringify({ url, preview }),
    });
-   const data = await res.json();
+
+   if (res.ok) {
+      const data = await res.json();
+   } else {
+      const errors = await res.json();
+      return errors;
+   }
    // dispatch(actionAddImage(data));
 };
 
-// left off here on this page. Trying to figure out how I am going to set the spot but I think I can do it with the readonespot function above.
 export const thunkUpdateSpot = (spot) => async (dispatch) => {
    const { address, city, state, country, name, description, price, id } = spot;
    const res = await csrfFetch(`/api/spots/${id}`, {
@@ -114,8 +133,27 @@ export const thunkUpdateSpot = (spot) => async (dispatch) => {
       }),
    });
 
-   const data = await res.json();
+   if (res.ok) {
+      const data = await res.json();
+   } else {
+      const errors = await res.json();
+      return errors;
+   }
    // dispatch(actionCreateSpot(data));
+};
+
+export const thunkDeleteSpot = (spotId) => async (dispatch) => {
+   const res = await csrfFetch(`/api/spots/${spotId}`, {
+      method: "DELETE",
+   });
+
+   if (res.ok) {
+      const data = await res.json();
+      dispatch(actionDeleteSpot(spotId));
+   } else {
+      const errors = await res.json();
+      return errors;
+   }
 };
 
 const initialState = {
@@ -146,6 +184,10 @@ const spotsReducer = (state = initialState, action) => {
                SpotImages: [...state.singleSpot.SpotImages, ...action.payload],
             },
          };
+         return newState;
+      case DELETE_SPOT:
+         newState = { ...state, allSpots: { ...state.allSpots } };
+         delete newState.allSpots[action.payload];
          return newState;
       default:
          return state;
