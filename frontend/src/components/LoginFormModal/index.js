@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
+import { useHistory } from "react-router-dom";
 import "./LoginForm.css";
 
 function LoginFormModal() {
@@ -10,12 +11,16 @@ function LoginFormModal() {
    const [password, setPassword] = useState("");
    const [errors, setErrors] = useState({});
    const { closeModal } = useModal();
+   const history = useHistory();
 
    const handleSubmit = (e) => {
       e.preventDefault();
       setErrors({});
       return dispatch(sessionActions.thunkLogin({ credential, password }))
-         .then(closeModal)
+         .then(() => {
+            closeModal();
+            history.push("/");
+         })
          .catch(async (res) => {
             const data = await res.json();
             if (data && data.errors) {
