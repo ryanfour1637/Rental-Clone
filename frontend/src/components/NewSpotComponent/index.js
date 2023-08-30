@@ -1,10 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
 import "./newSpotComponent.css";
-import { thunkCreateSpot, thunkAddImage } from "../../store/spots";
+import {
+   thunkCreateSpot,
+   thunkAddImage,
+   thunkUpdateSpot,
+   thunkReadSpots,
+   thunkReadOneSpot,
+} from "../../store/spots";
+import { checkForInputErrors } from "./helpers";
 
 function createNewSpot() {
+   const history = useHistory();
    const dispatch = useDispatch();
+
+   const { id } = useParams();
+   const singleSpot = useSelector((state) => state.spots.allSpots[id]);
+
    const [country, setCountry] = useState("");
    const [address, setAddress] = useState("");
    const [city, setCity] = useState("");
@@ -18,120 +31,121 @@ function createNewSpot() {
    const [image4, setImage4] = useState("");
    const [image5, setImage5] = useState("");
    const [errors, setErrors] = useState({});
+   const [update, setUpdate] = useState(false);
 
    useEffect(() => {
-      const errors = {};
-      if (country.length < 1) errors["country"] = "Country is required";
-      if (address.length < 1) errors["address"] = "Address is required";
-      if (city.length < 1) errors["city"] = "City is required";
-      if (state.length < 1) errors["state"] = "State is required";
-      if (description.length < 30)
-         errors["description"] = "Description needs a minimum of 30 characters";
-      if (title.length < 1) errors["title"] = "Name is required";
-      if (price.length < 1) errors["price"] = "Price is required";
-      if (previewImage.length < 1)
-         errors["previewImage"] = "Preview image is required.";
-      if (
-         image2.toLowerCase().endsWith(".png") ||
-         image2.toLowerCase().endsWith(".jpeg") ||
-         image2.toLowerCase().endsWith(".jpg")
-      ) {
-      } else if (image2.length < 1) {
+      dispatch(thunkReadSpots());
+   }, [dispatch]);
+
+   useEffect(() => {
+      if (!singleSpot) {
+         console.log("no spot found");
       } else {
-         errors["image2"] = "Image URL must end in .png, .jpg, or .jpeg";
+         setUpdate(true);
+         setCountry(singleSpot.country);
+         setAddress(singleSpot.address);
+         setCity(singleSpot.city);
+         setState(singleSpot.state);
+         setDescription(singleSpot.description);
+         setTitle(singleSpot.name);
+         setPrice(singleSpot.price);
+         setPreviewImage(singleSpot.previewImage);
       }
-      if (
-         image3.toLowerCase().endsWith(".png") ||
-         image3.toLowerCase().endsWith(".jpeg") ||
-         image3.toLowerCase().endsWith(".jpg")
-      ) {
-      } else if (image3.length < 1) {
-      } else {
-         errors["image3"] = "Image URL must end in .png, .jpg, or .jpeg";
-      }
-      if (
-         image4.toLowerCase().endsWith(".png") ||
-         image4.toLowerCase().endsWith(".jpeg") ||
-         image4.toLowerCase().endsWith(".jpg")
-      ) {
-      } else if (image4.length < 1) {
-      } else {
-         errors["image4"] = "Image URL must end in .png, .jpg, or .jpeg";
-      }
-      if (
-         image5.toLowerCase().endsWith(".png") ||
-         image5.toLowerCase().endsWith(".jpeg") ||
-         image5.toLowerCase().endsWith(".jpg")
-      ) {
-      } else if (image5.length < 1) {
-      } else {
-         errors["image5"] = "Image URL must end in .png, .jpg, or .jpeg";
-      }
-   }, [
-      country,
-      address,
-      city,
-      state,
-      description,
-      title,
-      price,
-      previewImage,
-      image2,
-      image3,
-      image4,
-      image5,
-   ]);
+   }, [singleSpot]);
+
    const handleSubmit = async (e) => {
+      // prevent the page from reloading
       e.preventDefault();
-      if (Object.values(errors).length > 0) {
-         setErrors(errors);
+
+      //validate any errors
+      const errors = checkForInputErrors(
+         country,
+         address,
+         city,
+         state,
+         description,
+         title,
+         price,
+         previewImage,
+         image2,
+         image3,
+         image4,
+         image5
+      );
+      setErrors(errors);
+
+      // this is the post/put to the db depending on if its an update or not
+      if (update) {
+         if (Object.values(errors).length > 0) {
+         } else {
+            const editedSpot = {
+               id,
+               address,
+               city,
+               state,
+               country,
+               name: title,
+               description,
+               price,
+            };
+            const res = await dispatch(thunkUpdateSpot(editedSpot));
+            // i think this is how i get the error but will need to console log in the morning to be sure. Need to error handle on this side as well and display back to the user somehow.
+
+            //also may not need to do this because if the person is never able to access the page at all to update it, it will not matter. check into if this is an option.
+            history.push(`/spots/${id}`);
+            // pick up here in the morning, I need to find out how to set an unauthorized error from the backend because I am the wrong user. In theory I shouldnt even be able to access this page at all. Figure out how to do that.
+         }
       } else {
-         const newSpot = {
-            address,
-            city,
-            state,
-            country,
-            name: title,
-            description,
-            price,
-         };
-         const returnSpot = await dispatch(thunkCreateSpot(newSpot));
+         if (Object.values(errors).length > 0) {
+         } else {
+            const newSpot = {
+               address,
+               city,
+               state,
+               country,
+               name: title,
+               description,
+               price,
+            };
+            const returnSpot = await dispatch(thunkCreateSpot(newSpot));
 
-         if (previewImage.length > 0) {
-            const createPreviewImage = {
-               url: previewImage,
-               preview: true,
-            };
-            dispatch(thunkAddImage(createPreviewImage, returnSpot));
-         }
+            if (previewImage.length > 0) {
+               const createPreviewImage = {
+                  url: previewImage,
+                  preview: true,
+               };
+               dispatch(thunkAddImage(createPreviewImage, returnSpot));
+            }
 
-         if (image2.length > 0) {
-            const img = {
-               url: image2,
-               preview: false,
-            };
-            dispatch(thunkAddImage(img, returnSpot));
-         }
-         if (image3.length > 0) {
-            const img = {
-               url: image3,
-               preview: false,
-            };
-            dispatch(thunkAddImage(img, returnSpot));
-         }
-         if (image4.length > 0) {
-            const img = {
-               url: image4,
-               preview: false,
-            };
-            dispatch(thunkAddImage(img, returnSpot));
-         }
-         if (image5.length > 0) {
-            const img = {
-               url: image5,
-               preview: false,
-            };
-            dispatch(thunkAddImage(img, returnSpot));
+            if (image2.length > 0) {
+               const img = {
+                  url: image2,
+                  preview: false,
+               };
+               dispatch(thunkAddImage(img, returnSpot));
+            }
+            if (image3.length > 0) {
+               const img = {
+                  url: image3,
+                  preview: false,
+               };
+               dispatch(thunkAddImage(img, returnSpot));
+            }
+            if (image4.length > 0) {
+               const img = {
+                  url: image4,
+                  preview: false,
+               };
+               dispatch(thunkAddImage(img, returnSpot));
+            }
+            if (image5.length > 0) {
+               const img = {
+                  url: image5,
+                  preview: false,
+               };
+               dispatch(thunkAddImage(img, returnSpot));
+            }
+            history.push(`/spots/${returnSpot.id}`);
          }
       }
    };
@@ -149,7 +163,7 @@ function createNewSpot() {
          <form onSubmit={handleSubmit}>
             <div>
                <label>
-                  Country {errors.country}
+                  Country
                   <input
                      type="text"
                      value={country}
@@ -157,8 +171,9 @@ function createNewSpot() {
                      placeholder="Country"
                   />
                </label>
+               {errors.country && <p>{errors.country}</p>}
                <label>
-                  Street Address {errors.address}
+                  Street Address
                   <input
                      type="text"
                      value={address}
@@ -166,10 +181,11 @@ function createNewSpot() {
                      placeholder="Address"
                   />
                </label>
+               {errors.address && <p>{errors.address}</p>}
             </div>
             <div>
                <label>
-                  City {errors.city}
+                  City
                   <input
                      type="text"
                      value={city}
@@ -177,8 +193,9 @@ function createNewSpot() {
                      placeholder="City"
                   />
                </label>
+               {errors.city && <p>{errors.city}</p>}
                <label>
-                  State {errors.state}
+                  State
                   <input
                      type="text"
                      value={state}
@@ -186,6 +203,7 @@ function createNewSpot() {
                      placeholder="STATE"
                   />
                </label>
+               {errors.state && <p>{errors.state}</p>}
             </div>
             <div>
                <h2>Describe your place to guests</h2>
@@ -200,7 +218,7 @@ function createNewSpot() {
                   placeholder="Please write at least 30 characters"
                   rows="5"
                ></textarea>
-               <p>{errors.description}</p>
+               {errors.description && <p>{errors.description}</p>}
             </div>
             <div>
                <h2>Create a title for your spot</h2>
@@ -214,7 +232,7 @@ function createNewSpot() {
                      placeholder="Name of your spot"
                   />
                </label>
-               <p>{errors.title}</p>
+               {errors.title && <p>{errors.title}</p>}
             </div>
             <div>
                <h2>Set a base price for your spot</h2>
@@ -232,7 +250,7 @@ function createNewSpot() {
                         placeholder="Price per night (USD)"
                      />
                   </label>
-                  <p>{errors.price}</p>
+                  {errors.price && <p>{errors.price}</p>}
                </div>
             </div>
             <div>
@@ -246,35 +264,35 @@ function createNewSpot() {
                      placeholder="Preview Image URL"
                   />
                </label>
-               <p>{errors.previewImage}</p>
+               {errors.previewImage && <p>{errors.previewImage}</p>}
                <input
                   type="url"
                   value={image2}
                   onChange={(e) => setImage2(e.target.value)}
                   placeholder="Image URL"
                />
-               <p>{errors.image2}</p>
+               {errors.image2 && <p>{errors.image2}</p>}
                <input
                   type="url"
                   value={image3}
                   onChange={(e) => setImage3(e.target.value)}
                   placeholder="Image URL"
                />
-               <p>{errors.image3}</p>
+               {errors.image3 && <p>{errors.image3}</p>}
                <input
                   type="url"
                   value={image4}
                   onChange={(e) => setImage4(e.target.value)}
                   placeholder="Image URL"
                />
-               <p>{errors.image4}</p>
+               {errors.image4 && <p>{errors.image4}</p>}
                <input
                   type="url"
                   value={image5}
                   onChange={(e) => setImage5(e.target.value)}
                   placeholder="Image URL"
                />
-               <p>{errors.image5}</p>
+               {errors.image5 && <p>{errors.image5}</p>}
             </div>
             <button type="submit">Create new spot</button>
          </form>

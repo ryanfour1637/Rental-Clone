@@ -76,10 +76,14 @@ export const thunkCreateSpot = (spot) => async (dispatch) => {
       }),
    });
 
-   const data = await res.json();
-   dispatch(actionCreateSpot(data));
-   console.log(data);
-   return data;
+   if (res.ok) {
+      const data = await res.json();
+      return data;
+   } else {
+      const errors = await res.json();
+      return errors;
+   }
+   // dispatch(actionCreateSpot(data));
 };
 
 export const thunkAddImage = (img, spot) => async (dispatch) => {
@@ -91,13 +95,13 @@ export const thunkAddImage = (img, spot) => async (dispatch) => {
       body: JSON.stringify({ url, preview }),
    });
    const data = await res.json();
-   dispatch(actionAddImage(data));
+   // dispatch(actionAddImage(data));
 };
 
 // left off here on this page. Trying to figure out how I am going to set the spot but I think I can do it with the readonespot function above.
 export const thunkUpdateSpot = (spot) => async (dispatch) => {
-   const { address, city, state, country, name, description, price } = spot;
-   const res = await csrfFetch(`/api/spots/${spot.id}`, {
+   const { address, city, state, country, name, description, price, id } = spot;
+   const res = await csrfFetch(`/api/spots/${id}`, {
       method: "PUT",
       body: JSON.stringify({
          address,
@@ -111,7 +115,7 @@ export const thunkUpdateSpot = (spot) => async (dispatch) => {
    });
 
    const data = await res.json();
-   dispatch(actionCreateSpot(data));
+   // dispatch(actionCreateSpot(data));
 };
 
 const initialState = {
