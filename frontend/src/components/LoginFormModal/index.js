@@ -13,6 +13,19 @@ function LoginFormModal() {
    const { closeModal } = useModal();
    const history = useHistory();
 
+   const demoUserSubmit = (e) => {
+      e.preventDefault();
+      return dispatch(
+         sessionActions.thunkLogin({
+            credential: "DemoUser@gmail.com",
+            password: "password",
+         })
+      ).then(() => {
+         closeModal();
+         history.push("/");
+      });
+   };
+
    const handleSubmit = (e) => {
       e.preventDefault();
       setErrors({});
@@ -52,8 +65,17 @@ function LoginFormModal() {
                />
             </label>
             {errors.credential && <p>{errors.credential}</p>}
-            <button type="submit">Log In</button>
+            <button
+               type="submit"
+               disabled={credential.length < 4 || password.length < 6}
+            >
+               Log In
+            </button>
          </form>
+
+         <button type="submit" onClick={demoUserSubmit}>
+            Log in as Demo User
+         </button>
       </>
    );
 }

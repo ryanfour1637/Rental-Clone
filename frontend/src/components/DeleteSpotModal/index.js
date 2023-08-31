@@ -5,7 +5,6 @@ import { useHistory } from "react-router-dom";
 import { thunkDeleteSpot } from "../../store/spots";
 
 function DeleteModal({ spotId, ownerId }) {
-   const history = useHistory();
    const dispatch = useDispatch();
    const { closeModal } = useModal();
 
