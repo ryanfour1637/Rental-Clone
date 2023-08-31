@@ -16,7 +16,8 @@ export function checkForInputErrors(
    if (country.length < 1) errors["country"] = "Country is required";
    if (address.length < 1) errors["address"] = "Address is required";
    if (city.length < 1) errors["city"] = "City is required";
-   if (state.length < 1) errors["state"] = "State is required";
+   if (state.length < 1)
+      errors["state"] = "State is required and must be 2 letters";
    if (description.length < 30)
       errors["description"] = "Description needs a minimum of 30 characters";
    if (title.length < 1) errors["title"] = "Name is required";
@@ -62,4 +63,3 @@ export function checkForInputErrors(
 
    return errors;
 }
-

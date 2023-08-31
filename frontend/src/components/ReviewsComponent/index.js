@@ -6,6 +6,7 @@ import { thunkReadSpots } from "../../store/spots";
 import { reviewCalc, easierDate } from "./helpers";
 import PostReviewButton from "./postReviewButton";
 import OpenModalButton from "../OpenModalButton";
+import "./reviews.css";
 
 function ReviewsComponent() {
    const dispatch = useDispatch();
@@ -13,14 +14,12 @@ function ReviewsComponent() {
    const reviews = useSelector((state) => state.reviews.spot);
    const user = useSelector((state) => state.session);
    const spotInfo = useSelector((state) => state.spots.allSpots[spotId]);
+   // when there is no logged in user, an error gets thrown because it says the user is unauthorized fix it later
 
    useEffect(() => {
       dispatch(thunkReadReviewsOneSpot(spotId));
       dispatch(thunkReadSpots());
    }, [dispatch]);
-
-   if (Object.values(reviews).length === 0) return null;
-   console.log(reviews, user);
 
    const reviewsArr = Object.values(reviews);
    const avgReview = reviewCalc(reviewsArr);
@@ -28,19 +27,20 @@ function ReviewsComponent() {
 
    const userHasReview = [];
    updatedReviewsArr.forEach((review) => {
-      if (review.userId == user.user.id) {
+      if ((review.userId || 5000) == (user.user.id || 6000)) {
          userHasReview.push(review);
       }
    });
-
-   const result = spotInfo.ownerId == user.user.id;
 
    const clickedPostReview = () => {};
 
    return (
       <>
          <div>
-            <p>{avgReview}</p>
+            <div className="avgReviewDiv">
+               <i className="fa-solid fa-star"></i>
+               <p>{avgReview || "New"}</p>
+            </div>
             <p>
                {reviewsArr.length < 1
                   ? "new"
@@ -49,13 +49,14 @@ function ReviewsComponent() {
                   : `${reviewsArr.length} reviews`}
             </p>
             <div>
-               {!userHasReview.length === 0 && !result && (
-                  <OpenModalButton
-                     buttonText="Post Your Review"
-                     onButtonClick={clickedPostReview}
-                     modalComponent={<PostReviewButton spotId={spotId} />}
-                  />
-               )}
+               {!userHasReview.length === 0 &&
+                  spotInfo.ownerId !== user.user.id && (
+                     <OpenModalButton
+                        buttonText="Post Your Review"
+                        onButtonClick={clickedPostReview}
+                        modalComponent={<PostReviewButton spotId={spotId} />}
+                     />
+                  )}
             </div>
          </div>
          {updatedReviewsArr &&

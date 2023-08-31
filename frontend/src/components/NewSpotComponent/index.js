@@ -250,7 +250,25 @@ function CreateNewSpot() {
                />
                {errors.image5 && <p>{errors.image5}</p>}
             </div>
-            <button type="submit">Create spot</button>
+            <button
+               type="submit"
+               disabled={
+                  country.length < 1 &&
+                  address.length < 1 &&
+                  city.length < 1 &&
+                  state.length < 1 &&
+                  description.length < 1 &&
+                  title.length < 1 &&
+                  price.length < 1 &&
+                  previewImage.length < 1 &&
+                  image2.length < 1 &&
+                  image3.length < 1 &&
+                  image4.length < 1 &&
+                  image5.length < 1
+               }
+            >
+               Create spot
+            </button>
          </form>
       </>
    );

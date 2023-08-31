@@ -1,0 +1,58 @@
+.contentDiv {
+   width: 1000px;
+   margin: 0 auto;
+}
+
+h2 {
+   font-size: xx-large;
+}
+
+h3 {
+   font-size: x-large;
+}
+
+.cityState {
+   font-size: large;
+}
+
+.imagesDiv {
+   display: flex;
+   height: 300px;
+   width: 1000px;
+}
+
+.leftImage {
+   height: 300px;
+   width: 490px;
+   margin-right: 10px;
+   border: 2px pink solid;
+}
+
+.rightImages {
+   height: 150px;
+   width: 250px;
+   border: 2px pink solid;
+}
+
+.bottomDiv {
+   display: flex;
+   justify-content: space-between;
+}
+
+.rightBottomDiv {
+   display: flex;
+   flex-direction: column;
+   border: 3px pink solid;
+   border-radius: 5%;
+   width: 325px;
+}
+
+.topRightBottomDiv {
+   display: flex;
+   justify-content: space-between;
+}
+
+.ratingDiv {
+   display: flex;
+   justify-content: space-between;
+}
