@@ -1,18 +1,30 @@
 import React, { useEffect, useState } from "react";
+import "./stars.css";
 
-function StarRating() {
-   const [rating, setRating] = useState();
+function StarRating({ stars, setStars }) {
+   const [hover, setHover] = useState();
    return (
       <div>
-         {[...Array(5)].map((star) => {
+         {[...Array(5)].map((star, i) => {
+            i += 1;
             return (
-               <button type="button">
+               <button
+                  onMouseEnter={() => setHover(i)}
+                  type="button"
+                  key={i}
+                  className={i <= (hover || stars) ? "fillIn" : "leaveEmpty"}
+                  onClick={() => setStars(i)}
+                  onMouseLeave={() => setHover(stars)}
+               >
                   <span>
-                     <i class="fa fa-star-o" aria-hidden="true"></i>
+                     <i className="fa-solid fa-star"></i>
                   </span>
                </button>
             );
          })}
+         <p>Stars</p>
       </div>
    );
 }
+
+export default StarRating;

@@ -1,0 +1,13 @@
+.fillIn {
+   color: green;
+   cursor: pointer;
+   background-color: transparent;
+   border: none;
+}
+
+.leaveEmpty {
+   color: lightgray;
+   cursor: pointer;
+   background-color: transparent;
+   border: none;
+}

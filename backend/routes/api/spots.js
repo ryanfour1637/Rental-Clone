@@ -315,6 +315,15 @@ router.delete("/:spotId", requireAuth, async (req, res) => {
 router.get("/:spotId/reviews", async (req, res) => {
    const spotId = req.params.spotId;
 
+   const doesSpotExist = await Spot.findByPk(spotId);
+
+   if (!doesSpotExist) {
+      res.status(404);
+      res.json({
+         message: "Spot could not be found",
+      });
+   }
+
    const reviewsForSpotArr = await Review.findAll({
       where: {
          spotId,
@@ -331,16 +340,9 @@ router.get("/:spotId/reviews", async (req, res) => {
       ],
    });
 
-   if (reviewsForSpotArr.length >= 1) {
-      let finalObj = {};
-      finalObj.Reviews = reviewsForSpotArr;
-      res.json(finalObj);
-   } else {
-      res.status(404);
-      res.json({
-         message: "Spot could not be found",
-      });
-   }
+   let finalObj = {};
+   finalObj.Reviews = reviewsForSpotArr;
+   res.json(finalObj);
 });
 
 router.post(
@@ -351,6 +353,7 @@ router.post(
       const spotId = parseInt(req.params.spotId);
       const id = parseInt(req.user.dataValues.id);
       const { review, stars } = req.body;
+      const user = await User.findByPk(id);
 
       const confirmSpot = await Spot.findByPk(spotId);
 
@@ -379,6 +382,8 @@ router.post(
                review,
                stars,
             });
+
+            newReview.User = user;
 
             res.json(newReview);
          }
