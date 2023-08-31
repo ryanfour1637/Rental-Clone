@@ -12,6 +12,10 @@
    display: flex;
 }
 
+.airbnblogo {
+   width: 150px;
+}
+
 .createSpotDiv {
    margin-right: 20px;
 }

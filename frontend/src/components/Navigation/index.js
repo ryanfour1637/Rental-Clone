@@ -11,10 +11,11 @@ function Navigation({ isLoaded }) {
       <div className="navMainDiv">
          <NavLink exact to="/">
             <img
-               src="https://static-00.iconduck.com/assets.00/airbnb-icon-512x512-d9grja5t.png"
+               src="https://media.designrush.com/inspiration_images/135187/conversions/_1511452487_364_Airbnb-mobile.jpg"
                alt="Home"
                width="24"
                height="24"
+               className="airbnblogo"
             />
          </NavLink>
          <div className="navRightSide">

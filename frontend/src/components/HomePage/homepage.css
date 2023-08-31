@@ -1,0 +1,59 @@
+img {
+   margin: 0;
+   padding: 0;
+   border: none;
+   width: auto;
+   height: auto;
+   max-width: 100%;
+}
+
+.imageTile {
+   height: 300px;
+   width: 300px;
+   border: 2px solid pink;
+   border-radius: 30px;
+}
+
+.toolTip {
+   position: "absolute";
+   color: purple;
+   padding: "5px";
+   border-radius: "3px";
+}
+
+.topTextDiv {
+   display: flex;
+   position: relative;
+   justify-content: space-between;
+}
+
+.ratingDiv {
+   display: inline-flex;
+}
+
+.fa-solid {
+   margin-top: 16px;
+   margin-right: 2px;
+}
+
+.totalDiv {
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: space-evenly;
+   height: 1000px;
+   width: 1400px;
+   margin: 0 auto;
+}
+
+.tileDivs {
+   display: flex;
+   flex-direction: column;
+   height: 400px;
+   width: 300px;
+}
+
+.imageInTile {
+   height: 300px;
+   width: 300px;
+   border: 1px black solid;
+}
