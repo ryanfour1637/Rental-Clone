@@ -8,6 +8,7 @@ export function reviewCalc(reviewsArr) {
 }
 
 export function easierDate(reviewsArr) {
+   const newArr = [];
    for (let review of reviewsArr) {
       const dateFromReview = review.updatedAt;
       const dateObj = new Date(dateFromReview);
@@ -29,6 +30,7 @@ export function easierDate(reviewsArr) {
       const monthForSite = months[dateObj.getUTCMonth()];
       const year = dateObj.getUTCFullYear();
       review.monthyear = `${monthForSite} ${year}`;
+      newArr.unshift(review);
    }
-   return reviewsArr;
+   return newArr;
 }
