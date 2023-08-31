@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./singlespot.css";
-import { useParams } from "react-router-dom";
+import { useParams, NavLink } from "react-router-dom";
 import { thunkReadOneSpot } from "../../store/spots";
 import ReviewsComponent from "../ReviewsComponent";
 
