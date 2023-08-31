@@ -25,30 +25,48 @@ function SingleSpot() {
       rightImages.push(imageToMove);
    }
 
+   const comingSoon = () => {
+      alert("Feature coming soon.");
+   };
+
    return (
-      <div>
+      <div className="contentDiv">
          <h2>Name - figure out right thing here</h2>
-         <p>{`${spot.city}, ${spot.state}, ${spot.country}`}</p>
-         <div>
-            <img src={images[0].url} />
+         <p className="cityState">{`${spot.city}, ${spot.state}, ${spot.country}`}</p>
+         <div className="imagesDiv">
+            <div className="leftImageDiv">
+               <img className="leftImage" src={images[0].url} />
+            </div>
+            <div>
+               {rightImages.map((image, index) => (
+                  <img
+                     className="rightImages"
+                     key={index}
+                     src={image.url}
+                     alt="Spot"
+                  />
+               ))}
+            </div>
          </div>
-         <div>
-            {rightImages.map((image, index) => (
-               <img key={index} src={image.url} alt="Spot" />
-            ))}
-         </div>
-         <div>
+         <div className="bottomDiv">
             <div>
                <h3>{`Hosted by ${spot.Owner.firstName} ${spot.Owner.lastName}`}</h3>
                <p>{spot.description}</p>
             </div>
-            <div>
-               <div>
-                  <p>{spot.price}</p>
-                  <p>{spot.avgRating || "Be the first to review!"}</p>
-                  <p>{spot.numReviews || ""}</p>
+            <div className="rightBottomDiv">
+               <div className="topRightBottomDiv">
+                  <div>
+                     <p>{`${spot.price} night`}</p>
+                  </div>
+                  <div className="ratingDiv">
+                     <i className="fa-solid fa-star"></i>
+                     <p>{spot.avgRating || "New!"}</p>
+
+                     <i class="fa-solid fa-circle fa-2xs"></i>
+                     <p>{`${spot.numReviews} reviews` || ""}</p>
+                  </div>
                </div>
-               <button>Reserve</button>
+               <button onClick={comingSoon}>Reserve</button>
             </div>
          </div>
          <ReviewsComponent />
