@@ -255,7 +255,7 @@ router.put("/:spotId", requireAuth, validateNewSpot, async (req, res) => {
    }
 });
 
-router.get("/:spotId", requireAuth, async (req, res) => {
+router.get("/:spotId", async (req, res) => {
    const spotId = parseInt(req.params.spotId);
 
    const detailsSpot = await Spot.findByPk(spotId, {

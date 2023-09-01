@@ -19,6 +19,7 @@ function ReviewsComponent() {
    const spotInfo = useSelector((state) => state.spots.singleSpot);
    const [hasReview, setHasReview] = useState(false);
    const [isOwner, setIsOwner] = useState(false);
+   const [isLoggedIn, setIsLoggedIn] = useState(false);
    const [showPostReviewButton, setShowPostReviewButton] = useState(false);
    // when there is no logged in user, an error gets thrown because it says the user is unauthorized fix it later.
 
@@ -31,16 +32,20 @@ function ReviewsComponent() {
    useEffect(() => {
       if (
          Object.values(reviews).length > 0 &&
-         Object.values(user).length > 0 &&
+         // Object.values(user).length > 0 &&
          Object.values(spotInfo).length > 0
       ) {
          const reviewsArr = Object.values(reviews);
+         let isUser = user?.user?.id !== undefined;
+         setIsLoggedIn(isUser);
+
          let review = reviewsArr.some(
-            (review) => review.userId === user.user.id
+            (review) => review.userId === user?.user?.id
          );
+
          setHasReview(review);
 
-         let owner = user.user.id === spotInfo.ownerId;
+         let owner = user?.user?.id === spotInfo.ownerId;
          setIsOwner(owner);
       }
    }, [reviews, user, spotInfo]);
@@ -73,7 +78,7 @@ function ReviewsComponent() {
                   : `${reviewsArr.length} reviews`}
             </p>
             <div>
-               {showPostReviewButton && (
+               {showPostReviewButton && isLoggedIn && (
                   <OpenModalButton
                      buttonText="Post Your Review"
                      onButtonClick={clickedPostReview}
@@ -91,7 +96,7 @@ function ReviewsComponent() {
                      <p>{review.review}</p>
                   </div>
                   <div>
-                     {review.User.id == user.user.id && (
+                     {isLoggedIn && review.User.id == user.user.id && (
                         <OpenModalButton
                            buttonText="Delete"
                            onButtonClick={clickedDelete}
