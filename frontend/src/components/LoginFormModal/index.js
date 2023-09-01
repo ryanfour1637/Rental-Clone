@@ -17,7 +17,7 @@ function LoginFormModal() {
       e.preventDefault();
       return dispatch(
          sessionActions.thunkLogin({
-            credential: "DemoUser@gmail.com",
+            credential: "Demouser@aol.com",
             password: "password",
          })
       ).then(() => {
