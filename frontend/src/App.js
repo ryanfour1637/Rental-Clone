@@ -8,6 +8,7 @@ import SingleSpot from "./components/SingleSpot";
 import CreateNewSpot from "./components/NewSpotComponent";
 import EditSpot from "./components/EditSpotComponent";
 import ManageSpots from "./components/ManageSpots";
+import NotFound from "./components/urlNotFound";
 
 function App() {
    const dispatch = useDispatch();
@@ -30,6 +31,7 @@ function App() {
                   path="/spots/:userId/manage"
                   component={ManageSpots}
                />
+               <Route component={NotFound} />
             </Switch>
          )}
       </>

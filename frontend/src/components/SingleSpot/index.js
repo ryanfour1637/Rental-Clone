@@ -62,7 +62,7 @@ function SingleSpot() {
                      <i className="fa-solid fa-star"></i>
                      <p>{spot.avgRating || "New!"}</p>
 
-                     <i class="fa-solid fa-circle fa-2xs"></i>
+                     <i className="fa-solid fa-circle fa-2xs"></i>
                      <p>{`${spot.numReviews} reviews` || ""}</p>
                   </div>
                </div>

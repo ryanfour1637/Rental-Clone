@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { useHistory } from "react-router-dom";
-import { thunkDeleteSpot } from "../../store/spots";
+import { thunkDeleteReview } from "../../store/reviews";
 import "./delete.css";
 
-function DeleteModal({ spotId, ownerId }) {
+function DeleteReviewModal({ reviewId }) {
    const dispatch = useDispatch();
    const { closeModal } = useModal();
 
    const clickedYes = () => {
-      dispatch(thunkDeleteSpot(spotId));
+      dispatch(thunkDeleteReview(reviewId));
       closeModal();
    };
 
@@ -21,17 +21,17 @@ function DeleteModal({ spotId, ownerId }) {
    return (
       <>
          <h2>Confirm Delete</h2>
-         <h5>Are you sure you want to remove this spot from the listings?</h5>
+         <h5>Are you sure you want to delete this review?</h5>
          <div>
             <button className="yesButton" onClick={clickedYes}>
-               Yes (Delete Spot)
+               Yes (Delete Review)
             </button>
             <button className="noButton" onClick={clickedNo}>
-               No (Keep Spot)
+               No (Keep Review)
             </button>
          </div>
       </>
    );
 }
 
-export default DeleteModal;
+export default DeleteReviewModal;
