@@ -2,38 +2,62 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { thunkReadReviewsOneSpot } from "../../store/reviews";
-import { thunkReadSpots } from "../../store/spots";
+import { thunkReadSpots, thunkReadOneSpot } from "../../store/spots";
 import { reviewCalc, easierDate } from "./helpers";
+import { thunkRestoreUser } from "../../store/session";
 import PostReviewButton from "./postReviewButton";
 import OpenModalButton from "../OpenModalButton";
+import DeleteModal from "../DeleteSpotModal";
 import "./reviews.css";
+import DeleteReviewModal from "../DeleteReviewModal";
 
 function ReviewsComponent() {
    const dispatch = useDispatch();
    const { spotId } = useParams();
    const reviews = useSelector((state) => state.reviews.spot);
    const user = useSelector((state) => state.session);
-   const spotInfo = useSelector((state) => state.spots.allSpots[spotId]);
-   // when there is no logged in user, an error gets thrown because it says the user is unauthorized fix it later
+   const spotInfo = useSelector((state) => state.spots.singleSpot);
+   const [hasReview, setHasReview] = useState(false);
+   const [isOwner, setIsOwner] = useState(false);
+   const [showPostReviewButton, setShowPostReviewButton] = useState(false);
+   // when there is no logged in user, an error gets thrown because it says the user is unauthorized fix it later.
 
    useEffect(() => {
       dispatch(thunkReadReviewsOneSpot(spotId));
-      dispatch(thunkReadSpots());
-   }, [dispatch]);
+      dispatch(thunkRestoreUser());
+      dispatch(thunkReadOneSpot(spotId));
+   }, [dispatch, spotId]);
 
+   useEffect(() => {
+      if (
+         Object.values(reviews).length > 0 &&
+         Object.values(user).length > 0 &&
+         Object.values(spotInfo).length > 0
+      ) {
+         const reviewsArr = Object.values(reviews);
+         let review = reviewsArr.some(
+            (review) => review.userId === user.user.id
+         );
+         setHasReview(review);
+
+         let owner = user.user.id === spotInfo.ownerId;
+         setIsOwner(owner);
+      }
+   }, [reviews, user, spotInfo]);
+
+   useEffect(() => {
+      if (hasReview || isOwner) {
+         setShowPostReviewButton(false);
+      } else {
+         setShowPostReviewButton(true);
+      }
+   }, [hasReview, isOwner]);
+
+   const clickedPostReview = () => {};
+   const clickedDelete = () => {};
    const reviewsArr = Object.values(reviews);
    const avgReview = reviewCalc(reviewsArr);
    const updatedReviewsArr = easierDate(reviewsArr);
-
-   const userHasReview = [];
-   updatedReviewsArr.forEach((review) => {
-      if ((review.userId || 5000) == (user.user.id || 6000)) {
-         userHasReview.push(review);
-      }
-   });
-
-   const clickedPostReview = () => {};
-
    return (
       <>
          <div>
@@ -49,23 +73,35 @@ function ReviewsComponent() {
                   : `${reviewsArr.length} reviews`}
             </p>
             <div>
-               {!userHasReview.length === 0 &&
-                  spotInfo.ownerId !== user.user.id && (
-                     <OpenModalButton
-                        buttonText="Post Your Review"
-                        onButtonClick={clickedPostReview}
-                        modalComponent={<PostReviewButton spotId={spotId} />}
-                     />
-                  )}
+               {showPostReviewButton && (
+                  <OpenModalButton
+                     buttonText="Post Your Review"
+                     onButtonClick={clickedPostReview}
+                     modalComponent={<PostReviewButton spotId={spotId} />}
+                  />
+               )}
             </div>
          </div>
          {updatedReviewsArr &&
             updatedReviewsArr.map((review) => (
-               <div key={review.id}>
-                  <p>{user.firstName}</p>
-                  <p>{review.monthyear}</p>
-                  <p>{review.review}</p>
-               </div>
+               <>
+                  <div key={review.id}>
+                     <p>{review.User.firstName}</p>
+                     <p>{review.monthyear}</p>
+                     <p>{review.review}</p>
+                  </div>
+                  <div>
+                     {review.User.id == user.user.id && (
+                        <OpenModalButton
+                           buttonText="Delete"
+                           onButtonClick={clickedDelete}
+                           modalComponent={
+                              <DeleteReviewModal reviewId={review.id} />
+                           }
+                        />
+                     )}
+                  </div>
+               </>
             ))}
       </>
    );
