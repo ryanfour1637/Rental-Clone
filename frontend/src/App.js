@@ -20,10 +20,10 @@ function App() {
    return (
       <>
          <Navigation isLoaded={isLoaded} />
-         <Route exact path="/" component={HomePage} />
-         <Route exact path="/spots/:spotId" component={SingleSpot} />
          {isLoaded && (
             <Switch>
+               <Route exact path="/" component={HomePage} />
+               <Route exact path="/spots/:spotId" component={SingleSpot} />
                <Route exact path="/spots" component={CreateNewSpot} />
                <Route exact path="/spots/:id/edit" component={EditSpot} />
                <Route
