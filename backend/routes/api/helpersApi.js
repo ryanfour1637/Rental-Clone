@@ -39,8 +39,9 @@ const reviewAvgObj = function (spotsObj) {
          starCount += review.stars;
       });
       let avg = starCount / count;
+      let avgRounded = Math.round(avg * 100) / 100;
       spot.numReviews = count;
-      spot.avgRating = avg;
+      spot.avgRating = avgRounded;
       delete spot.Reviews;
    });
    return jsonSpots;

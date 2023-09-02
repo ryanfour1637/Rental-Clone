@@ -21,7 +21,10 @@ function ReviewsComponent() {
    const [isOwner, setIsOwner] = useState(false);
    const [isLoggedIn, setIsLoggedIn] = useState(false);
    const [showPostReviewButton, setShowPostReviewButton] = useState(false);
-   // when there is no logged in user, an error gets thrown because it says the user is unauthorized fix it later.
+   const [reviewArrLength, setReviewArrLength] = useState(0);
+   const [avgRating, setAvgRating] = useState("new");
+   const [updatedReviewArray, setUpdatedReviewArray] = useState([]);
+   // when someone is
 
    useEffect(() => {
       dispatch(thunkReadReviewsOneSpot(spotId));
@@ -30,22 +33,18 @@ function ReviewsComponent() {
    }, [dispatch, spotId]);
 
    useEffect(() => {
-      if (
-         Object.values(reviews).length > 0 &&
-         // Object.values(user).length > 0 &&
-         Object.values(spotInfo).length > 0
-      ) {
+      if (Object.values(spotInfo).length > 0) {
          const reviewsArr = Object.values(reviews);
          let isUser = user?.user?.id !== undefined;
          setIsLoggedIn(isUser);
 
          let review = reviewsArr.some(
-            (review) => review.userId === user?.user?.id
+            (review) => review.userId == user?.user?.id
          );
 
          setHasReview(review);
 
-         let owner = user?.user?.id === spotInfo.ownerId;
+         let owner = user?.user?.id == spotInfo.ownerId;
          setIsOwner(owner);
       }
    }, [reviews, user, spotInfo]);
@@ -60,22 +59,30 @@ function ReviewsComponent() {
 
    const clickedPostReview = () => {};
    const clickedDelete = () => {};
-   const reviewsArr = Object.values(reviews);
-   const avgReview = reviewCalc(reviewsArr);
-   const updatedReviewsArr = easierDate(reviewsArr);
+
+   useEffect(() => {
+      const reviewsArr = Object.values(reviews);
+      setReviewArrLength(reviewsArr.length);
+      const avgReview = reviewCalc(reviewsArr);
+      const avgReviewDec = Math.round(avgReview * 100) / 100;
+      setAvgRating(avgReviewDec);
+      const updatedReviewsArr = easierDate(reviewsArr);
+      setUpdatedReviewArray(updatedReviewsArr);
+   }, [reviews]);
+
    return (
       <>
          <div>
             <div className="avgReviewDiv">
                <i className="fa-solid fa-star"></i>
-               <p>{avgReview || "New"}</p>
+               <p>{avgRating || "New"}</p>
             </div>
             <p>
-               {reviewsArr.length < 1
+               {reviewArrLength < 1
                   ? "new"
-                  : reviewsArr.length === 1
-                  ? `${reviewsArr.length} review`
-                  : `${reviewsArr.length} reviews`}
+                  : reviewArrLength === 1
+                  ? `${reviewArrLength} review`
+                  : `${reviewArrLength} reviews`}
             </p>
             <div>
                {showPostReviewButton && isLoggedIn && (
@@ -86,17 +93,22 @@ function ReviewsComponent() {
                   />
                )}
             </div>
+            <div>
+               {isLoggedIn && !isOwner && reviewArrLength < 1 && (
+                  <p>Be the first to post a review!</p>
+               )}
+            </div>
          </div>
-         {updatedReviewsArr &&
-            updatedReviewsArr.map((review) => (
+         {updatedReviewArray &&
+            updatedReviewArray.map((review) => (
                <>
                   <div key={review.id}>
-                     <p>{review.User.firstName}</p>
+                     <p>{review?.User?.firstName || user.user.firstName}</p>
                      <p>{review.monthyear}</p>
                      <p>{review.review}</p>
                   </div>
                   <div>
-                     {isLoggedIn && review.User.id == user.user.id && (
+                     {isLoggedIn && review?.User?.id == user.user.id && (
                         <OpenModalButton
                            buttonText="Delete"
                            onButtonClick={clickedDelete}

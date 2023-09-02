@@ -54,5 +54,22 @@ h3 {
 
 .ratingDiv {
    display: flex;
+   flex-direction: row;
    justify-content: space-between;
+}
+
+.smallDot {
+   font-size: 25px;
+   margin-right: 10px;
+}
+
+.starDiv {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   margin-right: 10px;
+}
+
+.fa-solid {
+   margin-bottom: 17px;
 }

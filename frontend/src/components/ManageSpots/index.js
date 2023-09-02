@@ -36,7 +36,7 @@ function ManageSpots() {
 
    return (
       <>
-         <h2>Manage Your Spots</h2>
+         <h2>Manage Spots</h2>
          {ownerSpotArr.length === 0 && (
             <button onClick={navToNewSpot}>Create a New Spot</button>
          )}
@@ -51,7 +51,7 @@ function ManageSpots() {
                      <p>{spot.avgRating || "New"}</p>
                   </div>
                   <div>
-                     <p>{`$${spot.price} night`}</p>
+                     <p>{`$${spot.price} / night`}</p>
                   </div>
                   <div>
                      <NavLink to={`/spots/${spot.id}/edit`}>

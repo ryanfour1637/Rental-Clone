@@ -18,7 +18,6 @@ function PostReviewButton({ spotId }) {
          stars: ratingNotSelected,
       };
       const res = await dispatch(thunkCreateReview(reviewToPost, spotId));
-      console.log(res);
       closeModal();
    };
 

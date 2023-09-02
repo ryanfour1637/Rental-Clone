@@ -56,14 +56,19 @@ function SingleSpot() {
             <div className="rightBottomDiv">
                <div className="topRightBottomDiv">
                   <div>
-                     <p>{`${spot.price} night`}</p>
+                     <p>{`$${spot.price} / night`}</p>
                   </div>
                   <div className="ratingDiv">
-                     <i className="fa-solid fa-star"></i>
-                     <p>{spot.avgRating || "New!"}</p>
-
-                     <i className="fa-solid fa-circle fa-2xs"></i>
-                     <p>{`${spot.numReviews} reviews` || ""}</p>
+                     <div className="starDiv">
+                        <span>
+                           <i className="fa-solid fa-star"></i>
+                        </span>
+                        <span>{spot.avgRating || "New!"}</span>
+                     </div>
+                     <div className="starDiv">
+                        <span className="smallDot">·</span>
+                        <span>{`${spot.numReviews} reviews` || ""}</span>
+                     </div>
                   </div>
                </div>
                <button onClick={comingSoon}>Reserve</button>
