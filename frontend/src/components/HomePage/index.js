@@ -17,27 +17,20 @@ function HomePage() {
       return null;
    }
    const spotsArr = Object.values(spots);
-   const setVisibility = (id, visible) => {
-      setShowToolTip((prevState) => ({ ...prevState, [id]: visible }));
-   };
+
    return (
       <div className="totalDiv">
          {spotsArr &&
             spotsArr.map((spot) => (
-               <div
-                  key={spot.id}
-                  className="tileDivs"
-                  onMouseOver={() => setVisibility(spot.id, true)}
-                  onMouseOut={() => setVisibility(spot.id, false)}
-               >
+               <div key={spot.id} className="tileDivs">
                   <NavLink to={`/spots/${spot.id}`}>
-                     <img className="imageTile" src={spot.previewImage} />
+                     <img
+                        className="imageTile"
+                        src={spot.previewImage}
+                        alt={spot.name}
+                        title={spot.name}
+                     />
                   </NavLink>
-
-                  {/* Tooltip */}
-                  {showToolTip[spot.id] && (
-                     <div className="toolTip">{spot.name}</div>
-                  )}
 
                   <div className="topTextDiv">
                      <p>{`${spot.city}, ${spot.state}`}</p>
