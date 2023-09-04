@@ -19,10 +19,12 @@ function DeleteReviewModal({ reviewId }) {
    };
 
    return (
-      <>
-         <h2>Confirm Delete</h2>
-         <h5>Are you sure you want to delete this review?</h5>
-         <div>
+      <div className="deleteDiv">
+         <div className="topDeleteDiv">
+            <h3>Confirm Delete</h3>
+            <h4>Are you sure you want to delete this review?</h4>
+         </div>
+         <div className="buttonsDiv">
             <button className="yesButton" onClick={clickedYes}>
                Yes (Delete Review)
             </button>
@@ -30,7 +32,7 @@ function DeleteReviewModal({ reviewId }) {
                No (Keep Review)
             </button>
          </div>
-      </>
+      </div>
    );
 }
 

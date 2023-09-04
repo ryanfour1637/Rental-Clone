@@ -10,6 +10,7 @@ import {
 } from "../../store/spots";
 import OpenModalButton from "../OpenModalButton";
 import DeleteModal from "../DeleteSpotModal";
+import "./manageSpots.css";
 
 function ManageSpots() {
    const dispatch = useDispatch();
@@ -35,28 +36,38 @@ function ManageSpots() {
    const clickedDelete = () => {};
 
    return (
-      <>
+      <div>
          <h2>Manage Spots</h2>
          {ownerSpotArr.length === 0 && (
             <button onClick={navToNewSpot}>Create a New Spot</button>
          )}
          {ownerSpotArr.length > 0 &&
             ownerSpotArr.map((spot) => (
-               <div key={spot.id}>
+               <div className="tileDivs" key={spot.id}>
                   <NavLink to={`/spots/${spot.id}`}>
-                     <img src={spot.previewImage} />
+                     <img
+                        src={spot.previewImage}
+                        className="imageTile"
+                        alt={spot.name}
+                        title={spot.name}
+                     />
                   </NavLink>
-                  <div>
+                  <div className="topTextDiv">
                      <p>{`${spot.city}, ${spot.state}`}</p>
-                     <p>{spot.avgRating || "New"}</p>
+                     <div className="ratingDiv">
+                        <i className="fa-solid fa-star"></i>
+                        <p>{spot.avgRating || "New"}</p>
+                     </div>
                   </div>
                   <div>
                      <p>{`$${spot.price} / night`}</p>
                   </div>
-                  <div>
-                     <NavLink to={`/spots/${spot.id}/edit`}>
-                        <button>Update</button>
-                     </NavLink>
+                  <div className="buttonDiv">
+                     <div>
+                        <NavLink to={`/spots/${spot.id}/edit`}>
+                           <button className="buttonUpdate">Update</button>
+                        </NavLink>
+                     </div>
                      <div>
                         <OpenModalButton
                            buttonText="Delete"
@@ -72,7 +83,7 @@ function ManageSpots() {
                   </div>
                </div>
             ))}
-      </>
+      </div>
    );
 }
 

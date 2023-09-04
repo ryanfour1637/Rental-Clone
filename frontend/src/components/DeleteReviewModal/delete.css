@@ -1,8 +1,52 @@
+.deleteDiv {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   width: 400px;
+   border: 6px solid black;
+   border-radius: 2px;
+}
+
+.topDeleteDiv {
+   height: 75px;
+   margin-bottom: 0;
+}
+
+.topDeleteDiv h3 {
+   margin-top: 10px;
+   margin-left: 90px;
+   margin-bottom: 10px;
+}
+
+.topDeleteDiv h4 {
+   margin-top: 0px;
+   text-align: left;
+   margin-left: 15px;
+   margin-right: 10px;
+}
+
 .yesButton {
    background-color: red;
    color: white;
+   height: 50px;
+   width: 350px;
+   margin-bottom: 10px;
+   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.8);
+   border-radius: 3px;
 }
 
 .noButton {
    background-color: darkgray;
+   height: 50px;
+   width: 350px;
+   color: white;
+   margin-bottom: 10px;
+   border-radius: 3px;
+   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.8);
+}
+
+.buttonsDiv {
+   display: flex;
+   flex-direction: column;
+   margin-top: 0;
 }

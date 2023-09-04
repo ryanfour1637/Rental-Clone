@@ -14,16 +14,39 @@ export function checkForInputErrors(
 ) {
    const errors = {};
    if (country.length < 1) errors["country"] = "Country is required";
+   if (isNaN(country)) {
+   } else {
+      errors["country"] =
+         "Country is required and must be letters and chars only";
+   }
    if (address.length < 1) errors["address"] = "Address is required";
    if (city.length < 1) errors["city"] = "City is required";
-   if (state.length < 1)
+   if (isNaN(city)) {
+   } else {
+      errors["city"] = "City is required and must be a letters and chars only";
+   }
+   if (state.length !== 2)
       errors["state"] = "State is required and must be 2 letters";
+   if (isNaN(state)) {
+   } else {
+      errors["state"] = "State is required and must be a string of 2 letters";
+   }
    if (description.length < 30)
       errors["description"] = "Description needs a minimum of 30 characters";
    if (title.length < 1) errors["title"] = "Name is required";
-   if (price.length < 1) errors["price"] = "Price is required";
+   if (price.length < 1) errors["price"] = "Price is required ";
+   if (isNaN(price)) errors["price"] = "Price is required and must be a number";
    if (previewImage.length < 1)
       errors["previewImage"] = "Preview image is required.";
+   if (
+      previewImage.toLowerCase().endsWith(".png") ||
+      previewImage.toLowerCase().endsWith(".jpeg") ||
+      previewImage.toLowerCase().endsWith(".jpg")
+   ) {
+   } else {
+      errors["previewImage"] =
+         "Preview image is required and must end in .png, .jpg or .jpeg";
+   }
    if (
       image2.toLowerCase().endsWith(".png") ||
       image2.toLowerCase().endsWith(".jpeg") ||
