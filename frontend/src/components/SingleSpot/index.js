@@ -31,7 +31,7 @@ function SingleSpot() {
 
    return (
       <div className="contentDiv">
-         <h2>Name - figure out right thing here</h2>
+         <h2>{spot.name}</h2>
          <p className="cityState">{`${spot.city}, ${spot.state}, ${spot.country}`}</p>
          <div className="imagesDiv">
             <div className="leftImageDiv">
@@ -66,8 +66,16 @@ function SingleSpot() {
                         <span>{spot.avgRating || "New!"}</span>
                      </div>
                      <div className="starDiv">
-                        <span className="smallDot">·</span>
-                        <span>{`${spot.numReviews} reviews` || ""}</span>
+                        {spot.numReviews > 0 && (
+                           <span className="smallDot">·</span>
+                        )}
+                        <span>
+                           {spot.numReviews == 1
+                              ? `${spot.numReviews} review`
+                              : spot.numReviews > 1
+                              ? `${spot.numReviews} reviews`
+                              : ""}
+                        </span>
                      </div>
                   </div>
                </div>

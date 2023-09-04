@@ -108,16 +108,16 @@ function CreateNewSpot() {
 
    return (
       <>
-         <div>
-            <h1>Create a new Spot</h1>
-            <h2>Where's your place located?</h2>
+         <div className="aboveFormDiv">
+            <h2>Create a new Spot</h2>
+            <h3>Where's your place located?</h3>
             <h4>
                Guests will only get your exact address once they booked a
                reservation.
             </h4>
          </div>
-         <form onSubmit={handleSubmit}>
-            <div>
+         <form className="formClass" onSubmit={handleSubmit}>
+            <div className="oneAcross">
                <label>
                   Country
                   <input
@@ -128,6 +128,8 @@ function CreateNewSpot() {
                   />
                </label>
                {errors.country && <p>{errors.country}</p>}
+            </div>
+            <div className="oneAcross">
                <label>
                   Street Address
                   <input
@@ -139,64 +141,72 @@ function CreateNewSpot() {
                </label>
                {errors.address && <p>{errors.address}</p>}
             </div>
-            <div>
-               <label>
-                  City
-                  <input
-                     type="text"
-                     value={city}
-                     onChange={(e) => setCity(e.target.value)}
-                     placeholder="City"
-                  />
-               </label>
-               {errors.city && <p>{errors.city}</p>}
-               <label>
-                  State
-                  <input
-                     type="text"
-                     value={state}
-                     onChange={(e) => setState(e.target.value)}
-                     placeholder="STATE"
-                  />
-               </label>
-               {errors.state && <p>{errors.state}</p>}
+            <div className="sameLine">
+               <div className="cityDiv">
+                  <label>
+                     City
+                     <input
+                        type="text"
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                        placeholder="City"
+                     />
+                  </label>
+                  {errors.city && <p>{errors.city}</p>}
+               </div>
+               <div className="commaDiv">,</div>
+               <div className="stateDiv">
+                  <label>
+                     State
+                     <input
+                        type="text"
+                        value={state}
+                        onChange={(e) => setState(e.target.value)}
+                        placeholder="STATE"
+                     />
+                  </label>
+                  {errors.state && <p>{errors.state}</p>}
+               </div>
             </div>
-            <div>
-               <h2>Describe your place to guests</h2>
-               <h4>
-                  Mention the best features of your space, any special amenities
-                  like fast wifi or parking, and what you love about the
-                  neighborhood
-               </h4>
-               <textarea
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Please write at least 30 characters"
-                  rows="5"
-               ></textarea>
-               {errors.description && <p>{errors.description}</p>}
+
+            <h3 className="noMargin">Describe your place to guests</h3>
+            <h4 className="lessMargin">
+               Mention the best features of your space, any special amenities
+               like fast wifi or parking, and what you love about the
+               neighborhood
+            </h4>
+            <textarea
+               className="textArea"
+               value={description}
+               onChange={(e) => setDescription(e.target.value)}
+               placeholder="Please write at least 30 characters"
+               rows="5"
+            ></textarea>
+            {errors.description && <p>{errors.description}</p>}
+
+            <div className="bottomDiv">
+               <div className="bottomDiv2">
+                  <h3>Create a title for your spot</h3>
+                  <label>
+                     Catch guests' attention with a spot title that highlights
+                     what makes your place special.
+                     <input
+                        type="text"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        placeholder="Name of your spot"
+                     />
+                  </label>
+                  {errors.title && <p>{errors.title}</p>}
+               </div>
             </div>
-            <div>
-               <h2>Create a title for your spot</h2>
-               <label>
-                  Catch guests' attention with a spot title that highlights what
-                  makes your place special.
-                  <input
-                     type="text"
-                     value={title}
-                     onChange={(e) => setTitle(e.target.value)}
-                     placeholder="Name of your spot"
-                  />
-               </label>
-               {errors.title && <p>{errors.title}</p>}
-            </div>
-            <div>
-               <h2>Set a base price for your spot</h2>
+            <div className="mostBottom">
+               <h3>Set a base price for your spot</h3>
                <h4>
                   Competitive pricing can help your listing stand out and rank
                   higher in search results.
                </h4>
-               <div>
+               <div className="priceDiv">
                   <label>
                      $
                      <input
@@ -209,48 +219,60 @@ function CreateNewSpot() {
                   {errors.price && <p>{errors.price}</p>}
                </div>
             </div>
-            <div>
-               <h2>Liven up your spot with photos</h2>
-               <label>
-                  Submit a link to at least one photo to publish your spot.
+            <div className="lastDiv">
+               <h3 className="photoH3">Liven up your spot with photos</h3>
+               <div className="oneAcross">
+                  <label>
+                     Submit a link to at least one photo to publish your spot.
+                     <input
+                        className="topInput"
+                        type="url"
+                        value={previewImage}
+                        onChange={(e) => setPreviewImage(e.target.value)}
+                        placeholder="Preview Image URL"
+                     />
+                  </label>
+                  {errors.previewImage && <p>{errors.previewImage}</p>}
+               </div>
+               <div className="oneAcross">
                   <input
                      type="url"
-                     value={previewImage}
-                     onChange={(e) => setPreviewImage(e.target.value)}
-                     placeholder="Preview Image URL"
+                     value={image2}
+                     onChange={(e) => setImage2(e.target.value)}
+                     placeholder="Image URL"
                   />
-               </label>
-               {errors.previewImage && <p>{errors.previewImage}</p>}
-               <input
-                  type="url"
-                  value={image2}
-                  onChange={(e) => setImage2(e.target.value)}
-                  placeholder="Image URL"
-               />
-               {errors.image2 && <p>{errors.image2}</p>}
-               <input
-                  type="url"
-                  value={image3}
-                  onChange={(e) => setImage3(e.target.value)}
-                  placeholder="Image URL"
-               />
-               {errors.image3 && <p>{errors.image3}</p>}
-               <input
-                  type="url"
-                  value={image4}
-                  onChange={(e) => setImage4(e.target.value)}
-                  placeholder="Image URL"
-               />
-               {errors.image4 && <p>{errors.image4}</p>}
-               <input
-                  type="url"
-                  value={image5}
-                  onChange={(e) => setImage5(e.target.value)}
-                  placeholder="Image URL"
-               />
-               {errors.image5 && <p>{errors.image5}</p>}
+                  {errors.image2 && <p>{errors.image2}</p>}
+               </div>
+               <div className="oneAcross">
+                  <input
+                     type="url"
+                     value={image3}
+                     onChange={(e) => setImage3(e.target.value)}
+                     placeholder="Image URL"
+                  />
+                  {errors.image3 && <p>{errors.image3}</p>}
+               </div>
+               <div className="oneAcross">
+                  <input
+                     type="url"
+                     value={image4}
+                     onChange={(e) => setImage4(e.target.value)}
+                     placeholder="Image URL"
+                  />
+                  {errors.image4 && <p>{errors.image4}</p>}
+               </div>
+               <div className="oneAcross">
+                  <input
+                     type="url"
+                     value={image5}
+                     onChange={(e) => setImage5(e.target.value)}
+                     placeholder="Image URL"
+                  />
+                  {errors.image5 && <p>{errors.image5}</p>}
+               </div>
             </div>
             <button
+               className="button"
                type="submit"
                disabled={
                   country.length < 1 &&
@@ -267,7 +289,7 @@ function CreateNewSpot() {
                   image5.length < 1
                }
             >
-               Create spot
+               Create Spot
             </button>
          </form>
       </>
