@@ -19,8 +19,8 @@ function DeleteModal({ spotId, ownerId }) {
    };
 
    return (
-      <div className="deleteDiv">
-         <div className="topDeleteDiv">
+      <div className="deletetheDiv">
+         <div className="upDeleteDiv">
             <h3>Confirm Delete</h3>
             <h4>
                Are you sure you want to remove this spot from the listings?
