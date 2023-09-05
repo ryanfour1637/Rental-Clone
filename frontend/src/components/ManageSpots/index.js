@@ -37,52 +37,54 @@ function ManageSpots() {
 
    return (
       <div>
-         <h2>Manage Spots</h2>
-         {ownerSpotArr.length === 0 && (
-            <button onClick={navToNewSpot}>Create a New Spot</button>
-         )}
-         {ownerSpotArr.length > 0 &&
-            ownerSpotArr.map((spot) => (
-               <div className="tileDivs" key={spot.id}>
-                  <NavLink to={`/spots/${spot.id}`}>
-                     <img
-                        src={spot.previewImage}
-                        className="imageTile"
-                        alt={spot.name}
-                        title={spot.name}
-                     />
-                  </NavLink>
-                  <div className="topTextDiv">
-                     <p>{`${spot.city}, ${spot.state}`}</p>
-                     <div className="ratingDiv">
-                        <i className="fa-solid fa-star"></i>
-                        <p>{spot.avgRating || "New"}</p>
-                     </div>
-                  </div>
-                  <div>
-                     <p>{`$${spot.price} / night`}</p>
-                  </div>
-                  <div className="buttonDiv">
-                     <div>
-                        <NavLink to={`/spots/${spot.id}/edit`}>
-                           <button className="buttonUpdate">Update</button>
-                        </NavLink>
-                     </div>
-                     <div>
-                        <OpenModalButton
-                           buttonText="Delete"
-                           onButtonClick={clickedDelete}
-                           modalComponent={
-                              <DeleteModal
-                                 spotId={spot.id}
-                                 ownerId={spot.ownerId}
-                              />
-                           }
+         <h2 className="h2manage">Manage Spots</h2>
+         <div className="outerDiv">
+            {ownerSpotArr.length === 0 && (
+               <button onClick={navToNewSpot}>Create a New Spot</button>
+            )}
+            {ownerSpotArr.length > 0 &&
+               ownerSpotArr.map((spot) => (
+                  <div className="tilesformanage" key={spot.id}>
+                     <NavLink to={`/spots/${spot.id}`}>
+                        <img
+                           src={spot.previewImage}
+                           className="imagestiles"
+                           alt={spot.name}
+                           title={spot.name}
                         />
+                     </NavLink>
+                     <div className="topdivwithtext">
+                        <p>{`${spot.city}, ${spot.state}`}</p>
+                        <div className="ratingsDiv">
+                           <i className="fa-solid fa-star"></i>
+                           <p>{spot.avgRating || "New"}</p>
+                        </div>
+                     </div>
+                     <div>
+                        <p>{`$${spot.price} / night`}</p>
+                     </div>
+                     <div className="buttonDiv">
+                        <div>
+                           <NavLink to={`/spots/${spot.id}/edit`}>
+                              <button className="buttonUpdate">Update</button>
+                           </NavLink>
+                        </div>
+                        <div>
+                           <OpenModalButton
+                              buttonText="Delete"
+                              onButtonClick={clickedDelete}
+                              modalComponent={
+                                 <DeleteModal
+                                    spotId={spot.id}
+                                    ownerId={spot.ownerId}
+                                 />
+                              }
+                           />
+                        </div>
                      </div>
                   </div>
-               </div>
-            ))}
+               ))}
+         </div>
       </div>
    );
 }

@@ -7,27 +7,24 @@ img {
    max-width: 100%;
 }
 
-.imageTile {
+.h2manage {
+   margin-left: 740px;
+}
+
+.imagestiles {
    height: 300px;
    width: 300px;
    border: 2px solid pink;
    border-radius: 30px;
 }
 
-.toolTip {
-   position: "absolute";
-   color: purple;
-   padding: "5px";
-   border-radius: "3px";
-}
-
-.topTextDiv {
+.topdivwithtext {
    display: flex;
    position: relative;
    justify-content: space-between;
 }
 
-.ratingDiv {
+.ratingsDiv {
    display: inline-flex;
 }
 
@@ -36,7 +33,7 @@ img {
    margin-right: 2px;
 }
 
-.totalDiv {
+.outerDiv {
    display: flex;
    flex-wrap: wrap;
    justify-content: space-evenly;
@@ -45,17 +42,11 @@ img {
    margin: 0 auto;
 }
 
-.tileDivs {
+.tilesformanage {
    display: flex;
    flex-direction: column;
    height: 400px;
    width: 300px;
-}
-
-.imageInTile {
-   height: 300px;
-   width: 300px;
-   border: 1px black solid;
 }
 
 .buttonDiv {
