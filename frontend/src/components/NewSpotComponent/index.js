@@ -64,7 +64,6 @@ function CreateNewSpot() {
             price,
          };
          const returnSpot = await dispatch(thunkCreateSpot(newSpot));
-         console.log("this is the return", returnSpot);
 
          // make these an array and modify backend to accept an array of images and put them in the DB. which index I want as a preview
          if (previewImage.length > 0) {
@@ -72,7 +71,7 @@ function CreateNewSpot() {
                url: previewImage,
                preview: true,
             };
-            dispatch(thunkAddImage(createPreviewImage, returnSpot));
+            dispatch(thunkAddImage(createPreviewImage, returnSpot.id));
          }
 
          if (image2.length > 0) {
@@ -80,28 +79,28 @@ function CreateNewSpot() {
                url: image2,
                preview: false,
             };
-            dispatch(thunkAddImage(img, returnSpot));
+            dispatch(thunkAddImage(img, returnSpot.id));
          }
          if (image3.length > 0) {
             const img = {
                url: image3,
                preview: false,
             };
-            dispatch(thunkAddImage(img, returnSpot));
+            dispatch(thunkAddImage(img, returnSpot.id));
          }
          if (image4.length > 0) {
             const img = {
                url: image4,
                preview: false,
             };
-            dispatch(thunkAddImage(img, returnSpot));
+            dispatch(thunkAddImage(img, returnSpot.id));
          }
          if (image5.length > 0) {
             const img = {
                url: image5,
                preview: false,
             };
-            dispatch(thunkAddImage(img, returnSpot));
+            dispatch(thunkAddImage(img, returnSpot.id));
          }
          history.push(`/spots/${returnSpot.id}`);
       }

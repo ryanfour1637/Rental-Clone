@@ -35,7 +35,7 @@ function SingleSpot() {
          <p className="cityState">{`${spot.city}, ${spot.state}, ${spot.country}`}</p>
          <div className="imagesDiv">
             <div className="leftImageDiv">
-               <img className="leftImage" src={images[0].url} />
+               <img className="leftImage" src={images[0]?.url} />
             </div>
             <div>
                {rightImages.map((image, index) => (
