@@ -93,7 +93,7 @@ function EditSpot() {
                url: previewImage,
                preview: true,
             };
-            dispatch(thunkAddImage(createPreviewImage, returnSpot));
+            dispatch(thunkAddImage(createPreviewImage, id));
          }
 
          if (image2.length > 0) {
@@ -101,30 +101,30 @@ function EditSpot() {
                url: image2,
                preview: false,
             };
-            dispatch(thunkAddImage(img, returnSpot));
+            dispatch(thunkAddImage(img, id));
          }
          if (image3.length > 0) {
             const img = {
                url: image3,
                preview: false,
             };
-            dispatch(thunkAddImage(img, returnSpot));
+            dispatch(thunkAddImage(img, id));
          }
          if (image4.length > 0) {
             const img = {
                url: image4,
                preview: false,
             };
-            dispatch(thunkAddImage(img, returnSpot));
+            dispatch(thunkAddImage(img, id));
          }
          if (image5.length > 0) {
             const img = {
                url: image5,
                preview: false,
             };
-            dispatch(thunkAddImage(img, returnSpot));
+            dispatch(thunkAddImage(img, id));
          }
-         history.push(`/spots/${returnSpot.id}`);
+         history.push(`/spots/${id}`);
       }
    };
 
