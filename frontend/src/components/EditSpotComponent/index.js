@@ -76,6 +76,7 @@ function EditSpot() {
       if (Object.values(errors).length > 0) {
       } else {
          const newSpot = {
+            id,
             address,
             city,
             state,
