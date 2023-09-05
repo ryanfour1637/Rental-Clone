@@ -14,17 +14,8 @@ export function checkForInputErrors(
 ) {
    const errors = {};
    if (country.length < 1) errors["country"] = "Country is required";
-   if (isNaN(country)) {
-   } else {
-      errors["country"] =
-         "Country is required and must be letters and chars only";
-   }
    if (address.length < 1) errors["address"] = "Address is required";
    if (city.length < 1) errors["city"] = "City is required";
-   if (isNaN(city)) {
-   } else {
-      errors["city"] = "City is required and must be a letters and chars only";
-   }
    if (state.length !== 2)
       errors["state"] = "State is required and must be 2 letters";
    if (isNaN(state)) {
