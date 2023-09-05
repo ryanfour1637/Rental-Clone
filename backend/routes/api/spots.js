@@ -179,8 +179,6 @@ router.post("/:spotId/images", requireAuth, async (req, res, next) => {
    const id = parseInt(req.user.dataValues.id);
    const spotId = parseInt(req.params.spotId);
 
-   console.log(req.params.spotId);
-   console.log("is spotId working right?", spotId);
    const addToSpot = await Spot.findByPk(spotId, {
       include: {
          model: SpotImage,
