@@ -100,9 +100,8 @@ export const thunkCreateSpot = (spot) => async (dispatch) => {
    // dispatch(actionCreateSpot(data));
 };
 
-export const thunkAddImage = (img, spot) => async (dispatch) => {
+export const thunkAddImage = (img, id) => async (dispatch) => {
    const { url, preview } = img;
-   const { id } = spot;
    const spotId = id;
    const res = await csrfFetch(`/api/spots/${spotId}/images`, {
       method: "POST",
