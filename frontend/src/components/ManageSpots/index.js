@@ -40,7 +40,9 @@ function ManageSpots() {
          <h2 className="h2manage">Manage Spots</h2>
          <div className="outerDiv">
             {ownerSpotArr.length === 0 && (
-               <button onClick={navToNewSpot}>Create a New Spot</button>
+               <button onClick={navToNewSpot} className="buttonCreate">
+                  Create a New Spot
+               </button>
             )}
             {ownerSpotArr.length > 0 &&
                ownerSpotArr.map((spot) => (
@@ -66,7 +68,7 @@ function ManageSpots() {
                      <div className="buttonDiv">
                         <div>
                            <NavLink to={`/spots/${spot.id}/edit`}>
-                              <button className="buttonUpdate">Update</button>
+                              <button className="buttonsUpdate">Update</button>
                            </NavLink>
                         </div>
                         <div>
