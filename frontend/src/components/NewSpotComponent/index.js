@@ -64,6 +64,7 @@ function CreateNewSpot() {
             price,
          };
          const returnSpot = await dispatch(thunkCreateSpot(newSpot));
+         console.log("this is the return", returnSpot);
 
          // make these an array and modify backend to accept an array of images and put them in the DB. which index I want as a preview
          if (previewImage.length > 0) {
