@@ -94,7 +94,7 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
    if (findBooking.userId !== id) {
       res.status(401);
       res.json({
-         message: "Unauthorized, booking must belong to the current use",
+         message: "Unauthorized, booking must belong to the current user",
       });
       return;
    }
