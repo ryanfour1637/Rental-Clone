@@ -97,7 +97,7 @@ export const thunkCreateSpot = (spot) => async (dispatch) => {
       const errors = await res.json();
       return errors;
    }
-   // dispatch(actionCreateSpot(data))
+   // dispatch(actionCreateSpot(data));
 };
 
 export const thunkAddImage = (img, id) => async (dispatch) => {
