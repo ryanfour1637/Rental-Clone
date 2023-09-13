@@ -8,7 +8,7 @@ function HomePage() {
    const dispatch = useDispatch();
    const spots = useSelector((state) => state.spots.allSpots);
 
-   // may need to add state variables here to pull out from the useState selector to ensure that it renders properly. but I dont think 
+   // may need to add state variables here to pull out from the useState selector to ensure that it renders properly. but I dont think so.
 
    useEffect(() => {
       dispatch(thunkReadSpots());
