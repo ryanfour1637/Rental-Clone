@@ -22,9 +22,7 @@ function DeleteModal({ spotId, ownerId }) {
       <div className="deletetheDiv">
          <div className="upDeleteDiv">
             <h3>Confirm Delete</h3>
-            <h4>
-               Are you sure you want to remove this spot from the listings?
-            </h4>
+            <h4>Are you sure you want to remove this spot from the listings</h4>
          </div>
          <div className="buttonsDiv">
             <button className="yesButton" onClick={clickedYes}>
