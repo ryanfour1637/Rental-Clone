@@ -7,7 +7,8 @@ import { Link, Switch, Route, NavLink } from "react-router-dom";
 function HomePage() {
    const dispatch = useDispatch();
    const spots = useSelector((state) => state.spots.allSpots);
-   const [showToolTip, setShowToolTip] = useState({});
+
+   // may need to add state variables here to pull out from the useState selector to ensure that it renders properly. but I dont think so.
 
    useEffect(() => {
       dispatch(thunkReadSpots());
