@@ -49,7 +49,9 @@ function SpotForm() {
       }
    }, [id]);
 
-   // need a conditional to ensure I get data. in this case 
+   // need a conditional to ensure I get data. in this case
+   // if ID.length isnt greater than 0 then I render the form and dont dispatch anything
+   // else if it is but there is no singleSpot data yet, I need to dispatch and return null
 
    // i do not think I should need this code as the useSelector should get the data from above without needed the dispatch
    //    useEffect(() => {
