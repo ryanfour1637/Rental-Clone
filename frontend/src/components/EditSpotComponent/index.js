@@ -40,7 +40,6 @@ function EditSpot() {
       if (!singleSpot) {
          console.log("no spot found");
       } else {
-         setUpdate(true);
          setCountry(singleSpot.country);
          setAddress(singleSpot.address);
          setCity(singleSpot.city);
