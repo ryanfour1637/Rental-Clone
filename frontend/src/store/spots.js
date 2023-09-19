@@ -170,7 +170,7 @@ const spotsReducer = (state = initialState, action) => {
          return newState;
       case READ_ONE_SPOT:
          newState = { ...state, singleSpot: {} };
-         newState.singleSpot = action.payload;
+         newState.singleSpot[action.payload.id] = action.payload;
          return newState;
       case CREATE_SPOT:
          newState = { ...state, allSpots: { ...state.allSpots } };

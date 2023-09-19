@@ -39,6 +39,7 @@ function SpotForm() {
    const [spotToUpdate, setSpotToUpdate] = useState({});
 
    // getting my spot data out of the store if there is an id
+   // but I think I need a useEffect to populate the data in my store I think
    const singleSpot = useSelector((state) => state.spots.allSpots[id]);
 
    // using this to track if a parameter is coming in. If there is a param its an update spot and if not its a new spot
@@ -47,6 +48,8 @@ function SpotForm() {
          setUpdate(true);
       }
    }, [id]);
+
+   // need a conditional to ensure I get data. in this case 
 
    // i do not think I should need this code as the useSelector should get the data from above without needed the dispatch
    //    useEffect(() => {
