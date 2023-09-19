@@ -49,14 +49,16 @@ function SpotForm() {
       }
    }, [id]);
 
+
+   //I need to do one handlesubmit if its create versus if its the other. And i need to figure out a way to make sure my handlesubmit knows which it is with the update state variable
+
+   if (id.length > 0 && Object.values(singleSpot).length === 0) {
+      dispatch(thunkReadOneSpot(id));
+      return null;
+   }
    // need a conditional to ensure I get data. in this case
    // if ID.length isnt greater than 0 then I render the form and dont dispatch anything
    // else if it is but there is no singleSpot data yet, I need to dispatch and return null
-
-   // i do not think I should need this code as the useSelector should get the data from above without needed the dispatch
-   //    useEffect(() => {
-   //       if (update) dispatch(thunkReadSpots());
-   //    }, [dispatch]);
 }
 
 export default SpotForm;
