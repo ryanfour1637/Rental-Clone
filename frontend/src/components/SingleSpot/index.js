@@ -8,16 +8,17 @@ import ReviewsComponent from "../ReviewsComponent";
 function SingleSpot() {
    const dispatch = useDispatch();
    const { spotId } = useParams();
-   const spot = useSelector((state) => state.spots.singleSpot);
+   const spot = useSelector((state) => state.spots.singleSpot[spotId]);
 
-   useEffect(() => {
+   // i need this to update my store to be correct, I think.
+
+   // I do not need to use a useEffect to get my data, I can use this method below too.
+   if (Object.keys(spot).length === 0) {
       dispatch(thunkReadOneSpot(spotId));
-   }, [dispatch, spotId]);
-
-   if (!spot || Object.keys(spot).length === 0) {
       return null;
    }
 
+   // need to figure out if I may need to get the data normalized for this array
    const images = spot.SpotImages;
    const rightImages = [];
    for (let i = 1; i < images.length; i++) {
