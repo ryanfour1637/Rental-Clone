@@ -8,12 +8,12 @@ import ReviewsComponent from "../ReviewsComponent";
 function SingleSpot() {
    const dispatch = useDispatch();
    const { spotId } = useParams();
-   const spot = useSelector((state) => state.spots.singleSpot[spotId]);
+   const spot = useSelector((state) => state.spots.singleSpot);
 
    // i need this to update my store to be correct, I think.
 
    // I do not need to use a useEffect to get my data, I can use this method below too.
-   if (Object.keys(spot).length === 0) {
+   if (!spot || Object.keys(spot).length === 0) {
       dispatch(thunkReadOneSpot(spotId));
       return null;
    }
