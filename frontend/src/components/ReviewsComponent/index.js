@@ -21,10 +21,11 @@ function ReviewsComponent() {
    const [isOwner, setIsOwner] = useState(false);
    const [isLoggedIn, setIsLoggedIn] = useState(false);
    const [showPostReviewButton, setShowPostReviewButton] = useState(false);
+   const [showReviewDeleteButton, setShowReviewDeleteButton] = useState(false);
    const [reviewArrLength, setReviewArrLength] = useState(0);
    const [avgRating, setAvgRating] = useState("new");
    const [updatedReviewArray, setUpdatedReviewArray] = useState([]);
-   // when someone is
+   
 
    useEffect(() => {
       dispatch(thunkReadReviewsOneSpot(spotId));
@@ -50,12 +51,22 @@ function ReviewsComponent() {
    }, [reviews, user, spotInfo]);
 
    useEffect(() => {
+      for (let review of updatedReviewArray) {
+         if (review?.User?.id == user.user.id) {
+            setShowReviewDeleteButton(true);
+         }
+      }
+   }, [reviewArrLength]);
+
+   useEffect(() => {
       if (hasReview || isOwner) {
          setShowPostReviewButton(false);
       } else {
          setShowPostReviewButton(true);
       }
    }, [hasReview, isOwner]);
+
+   // need to add the functionaility to update store in here
 
    const clickedPostReview = () => {};
    const clickedDelete = () => {};
@@ -99,6 +110,11 @@ function ReviewsComponent() {
                )}
             </div>
          </div>
+
+         // I need to make sure my store is updating the array so that my useeffects will run. I ahvent dispatched any actions.
+
+
+         // I think that i need to move this logic outside and have the keys I need be state variables and then the useeffect will work bc right now since they are in this function I dont think its allowing the useeffects to do anything.
          {updatedReviewArray &&
             updatedReviewArray.map((review) => (
                <>
@@ -108,15 +124,17 @@ function ReviewsComponent() {
                      <p>{review.review}</p>
                   </div>
                   <div>
-                     {isLoggedIn && review?.User?.id == user.user.id && (
-                        <OpenModalButton
-                           buttonText="Delete"
-                           onButtonClick={clickedDelete}
-                           modalComponent={
-                              <DeleteReviewModal reviewId={review.id} />
-                           }
-                        />
-                     )}
+                     {isLoggedIn &&
+                        showReviewDeleteButton &&
+                        review?.User?.id == user.user.id && (
+                           <OpenModalButton
+                              buttonText="Delete"
+                              onButtonClick={clickedDelete}
+                              modalComponent={
+                                 <DeleteReviewModal reviewId={review.id} />
+                              }
+                           />
+                        )}
                   </div>
                </>
             ))}
