@@ -39,6 +39,7 @@ export const thunkReadReviewsOneSpot = (spotId) => async (dispatch) => {
 };
 
 export const thunkCreateReview = (review, spotId) => async (dispatch) => {
+   console.log("this is getting passed to my thunk", review);
    const res = await csrfFetch(`/api/spots/${spotId}/reviews`, {
       method: "POST",
       body: JSON.stringify({
@@ -49,6 +50,8 @@ export const thunkCreateReview = (review, spotId) => async (dispatch) => {
 
    if (res.ok) {
       const data = await res.json();
+      data["User"] = review.User;
+      console.log("this is the data", data);
       dispatch(actionCreateReview(data));
       return data;
    } else {
@@ -87,7 +90,7 @@ const reviewsReducer = (state = initialState, action) => {
          );
          return newState;
       case CREATE_REVIEW:
-         newState = { ...state, spot: { ...state.spot } };
+         newState = { ...state, spot: { ...state.spot }, user: {} };
          newState.spot[action.payload.id] = action.payload;
          return newState;
       case DELETE_REVIEW:

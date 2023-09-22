@@ -8,6 +8,7 @@ export function reviewCalc(reviewsArr) {
 }
 
 export function easierDate(reviewsArr) {
+   console.log("inside easierDate", reviewsArr);
    const newArr = [];
    for (let review of reviewsArr) {
       const dateFromReview = review.updatedAt;
