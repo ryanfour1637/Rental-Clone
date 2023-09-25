@@ -23,7 +23,7 @@ function SingleSpot() {
 
    useEffect(() => {
       dispatch(thunkReadOneSpot(spotId));
-   }, [reviewsData]);
+   }, [reviewsData, spotId]);
 
    // need to figure out if I may need to get the data normalized for this array
    const images = spot.SpotImages;

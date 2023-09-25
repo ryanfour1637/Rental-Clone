@@ -31,8 +31,6 @@ function ReviewsComponent() {
       dispatch(thunkReadOneSpot(spotId));
    }, [dispatch, spotId]);
 
-   useEffect(() => {}, [reviews]);
-
    useEffect(() => {
       if (Object.values(spotInfo).length > 0) {
          const reviewsArr = Object.values(reviews);
@@ -58,7 +56,6 @@ function ReviewsComponent() {
       const avgReviewDec = Math.round(avgReview * 100) / 100;
       setAvgRating(avgReviewDec);
       const updatedReviewsArr = easierDate(reviewsArr);
-
       setUpdatedReviewArray(updatedReviewsArr);
    }, [reviews]);
 

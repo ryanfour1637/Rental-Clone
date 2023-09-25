@@ -15,7 +15,7 @@ function PostReviewButton({ spotId }) {
    const [ratingNotSelected, setRatingNotSelected] = useState(null);
 
    const clickedSubmit = async (e) => {
-      console.log("this is the user", user);
+     
       e.preventDefault();
       const reviewToPost = {
          review: reviewText,
