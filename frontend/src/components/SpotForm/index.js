@@ -9,7 +9,7 @@ import {
    thunkReadSpots,
    thunkReadOneSpot,
 } from "../../store/spots";
-import { checkForInputErrors } from "./helpers";
+import { checkForInputErrorsCreate } from "./helpers";
 
 import "./newSpotComponent.css";
 import { checkForInputErrorsNoImages } from "./helpers";

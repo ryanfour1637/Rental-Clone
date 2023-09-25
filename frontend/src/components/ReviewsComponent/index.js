@@ -70,8 +70,6 @@ function ReviewsComponent() {
       }
    }, [hasReview, isOwner]);
 
-   // need to add the functionaility to update store in here
-
    const clickedPostReview = () => {};
    const clickedDelete = () => {};
 
