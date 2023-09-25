@@ -102,12 +102,6 @@ function ReviewsComponent() {
                )}
             </div>
          </div>
-         // I need to make sure my store is updating the array so that my
-         useeffects will run. I ahvent dispatched any actions. // I think that i
-         need to move this logic outside and have the keys I need be state
-         variables and then the useeffect will work bc right now since they are
-         in this function I dont think its allowing the useeffects to do
-         anything.
          {updatedReviewArray &&
             updatedReviewArray.map((review) => (
                <>
