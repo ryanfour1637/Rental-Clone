@@ -1,10 +1,10 @@
-export function checkForInputErrors(
+export function checkForInputErrorsCreate(
    country,
    address,
    city,
    state,
    description,
-   title,
+   name,
    price,
    previewImage,
    image2,
@@ -24,7 +24,9 @@ export function checkForInputErrors(
    }
    if (description.length < 30)
       errors["description"] = "Description needs a minimum of 30 characters";
-   if (title.length < 1) errors["title"] = "Name is required";
+   if (description.length < 1)
+      errors["description"] = "Description is required.";
+   if (name.length < 1) errors["name"] = "Name is required";
    if (price.length < 1) errors["price"] = "Price is required ";
    if (isNaN(price)) errors["price"] = "Price is required and must be a number";
    if (previewImage.length < 1)
@@ -74,6 +76,34 @@ export function checkForInputErrors(
    } else {
       errors["image5"] = "Image URL must end in .png, .jpg, or .jpeg";
    }
+
+   return errors;
+}
+
+export function checkForInputErrorsNoImages(
+   country,
+   address,
+   city,
+   state,
+   description,
+   name,
+   price
+) {
+   const errors = {};
+   if (country.length < 1) errors["country"] = "Country is required";
+   if (address.length < 1) errors["address"] = "Address is required";
+   if (city.length < 1) errors["city"] = "City is required";
+   if (state.length !== 2)
+      errors["state"] = "State is required and must be 2 letters";
+   if (isNaN(state)) {
+   } else {
+      errors["state"] = "State is required and must be a string of 2 letters";
+   }
+   if (description.length < 30)
+      errors["description"] = "Description needs a minimum of 30 characters";
+   if (name.length < 1) errors["name"] = "Name is required";
+   if (price.length < 1) errors["price"] = "Price is required ";
+   if (isNaN(price)) errors["price"] = "Price is required and must be a number";
 
    return errors;
 }

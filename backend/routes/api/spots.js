@@ -219,6 +219,8 @@ router.post("/:spotId/images", requireAuth, async (req, res, next) => {
    }
 });
 
+
+
 router.put("/:spotId", requireAuth, validateNewSpot, async (req, res) => {
    const spotId = parseInt(req.params.spotId);
    const id = parseInt(req.user.dataValues.id);

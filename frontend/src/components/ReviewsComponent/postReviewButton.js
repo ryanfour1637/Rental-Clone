@@ -7,15 +7,20 @@ import StarRating from "./stars";
 
 function PostReviewButton({ spotId }) {
    const dispatch = useDispatch();
+   // add
+
+   const user = useSelector((state) => state.session);
    const { closeModal } = useModal();
    const [reviewText, setReviewText] = useState("");
    const [ratingNotSelected, setRatingNotSelected] = useState(null);
 
    const clickedSubmit = async (e) => {
+     
       e.preventDefault();
       const reviewToPost = {
          review: reviewText,
          stars: ratingNotSelected,
+         User: user,
       };
       const res = await dispatch(thunkCreateReview(reviewToPost, spotId));
       closeModal();

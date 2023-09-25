@@ -24,7 +24,6 @@ function ReviewsComponent() {
    const [reviewArrLength, setReviewArrLength] = useState(0);
    const [avgRating, setAvgRating] = useState("new");
    const [updatedReviewArray, setUpdatedReviewArray] = useState([]);
-   // when someone is
 
    useEffect(() => {
       dispatch(thunkReadReviewsOneSpot(spotId));
@@ -35,19 +34,30 @@ function ReviewsComponent() {
    useEffect(() => {
       if (Object.values(spotInfo).length > 0) {
          const reviewsArr = Object.values(reviews);
-         let isUser = user?.user?.id !== undefined;
+         let isUser = user.user.id !== undefined;
          setIsLoggedIn(isUser);
 
          let review = reviewsArr.some(
-            (review) => review.userId == user?.user?.id
+            (review) => review.userId == user.user.id
          );
 
          setHasReview(review);
 
-         let owner = user?.user?.id == spotInfo.ownerId;
+         let owner = user.user.id == spotInfo.ownerId;
          setIsOwner(owner);
       }
    }, [reviews, user, spotInfo]);
+
+   // the problem is that updated review array is not being updated with the change from reviews
+   useEffect(() => {
+      const reviewsArr = Object.values(reviews);
+      setReviewArrLength(reviewsArr.length);
+      const avgReview = reviewCalc(reviewsArr);
+      const avgReviewDec = Math.round(avgReview * 100) / 100;
+      setAvgRating(avgReviewDec);
+      const updatedReviewsArr = easierDate(reviewsArr);
+      setUpdatedReviewArray(updatedReviewsArr);
+   }, [reviews]);
 
    useEffect(() => {
       if (hasReview || isOwner) {
@@ -59,16 +69,6 @@ function ReviewsComponent() {
 
    const clickedPostReview = () => {};
    const clickedDelete = () => {};
-
-   useEffect(() => {
-      const reviewsArr = Object.values(reviews);
-      setReviewArrLength(reviewsArr.length);
-      const avgReview = reviewCalc(reviewsArr);
-      const avgReviewDec = Math.round(avgReview * 100) / 100;
-      setAvgRating(avgReviewDec);
-      const updatedReviewsArr = easierDate(reviewsArr);
-      setUpdatedReviewArray(updatedReviewsArr);
-   }, [reviews]);
 
    return (
       <>
@@ -103,12 +103,12 @@ function ReviewsComponent() {
             updatedReviewArray.map((review) => (
                <>
                   <div key={review.id}>
-                     <p>{review?.User?.firstName || user.user.firstName}</p>
+                     <p>{review.User.firstName}</p>
                      <p>{review.monthyear}</p>
                      <p>{review.review}</p>
                   </div>
-                  <div>
-                     {isLoggedIn && review?.User?.id == user.user.id && (
+                  {review.userId == user.user.id && (
+                     <div>
                         <OpenModalButton
                            buttonText="Delete"
                            onButtonClick={clickedDelete}
@@ -116,8 +116,8 @@ function ReviewsComponent() {
                               <DeleteReviewModal reviewId={review.id} />
                            }
                         />
-                     )}
-                  </div>
+                     </div>
+                  )}
                </>
             ))}
       </>
