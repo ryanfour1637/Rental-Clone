@@ -9,21 +9,17 @@ function SingleSpot() {
    const dispatch = useDispatch();
    const { spotId } = useParams();
    const spot = useSelector((state) => state.spots.singleSpot);
-   // i think I can get the review data from a different slice of state from the reviews slice.
    const reviewsData = useSelector((state) => state.reviews.spot);
 
-   // i need this to update my store to be correct, I think.
-
-   // I do not need to use a useEffect to get my data, I can use this method below too.
+   useEffect(() => {
+      dispatch(thunkReadOneSpot(spotId));
+      console.log(reviewsData);
+   }, [spotId, reviewsData]);
 
    if (!spot || Object.keys(spot).length === 0) {
       dispatch(thunkReadOneSpot(spotId));
       return null;
    }
-
-   useEffect(() => {
-      dispatch(thunkReadOneSpot(spotId));
-   }, [reviewsData, spotId]);
 
    // need to figure out if I may need to get the data normalized for this array
    const images = spot.SpotImages;
@@ -71,7 +67,7 @@ function SingleSpot() {
                         <span>
                            <i className="fa-solid fa-star"></i>
                         </span>
-                        <span>{spot.avgRating || "New!"}</span>
+                        <span>{spot.avgRating?.toFixed(1) || "New!"}</span>
                      </div>
                      <div className="starDiv">
                         {spot.numReviews > 0 && (
