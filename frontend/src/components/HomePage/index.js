@@ -28,18 +28,17 @@ function HomePage() {
                         alt={spot.name}
                         title={spot.name}
                      />
-                  </NavLink>
-
-                  <div className="topTextDiv">
-                     <p>{`${spot.city}, ${spot.state}`}</p>
-                     <div className="ratingDiv">
-                        <i className="fa-solid fa-star"></i>
-                        <p>{spot.avgRating || "New"}</p>
+                     <div className="topTextDiv">
+                        <p>{`${spot.city}, ${spot.state}`}</p>
+                        <div className="ratingDiv">
+                           <i className="fa-solid fa-star"></i>
+                           <p>{spot.avgRating?.toFixed(1) || "New"}</p>
+                        </div>
                      </div>
-                  </div>
-                  <div>
-                     <p>{`$${spot.price} night`}</p>
-                  </div>
+                     <div>
+                        <p>{`$${spot.price} night`}</p>
+                     </div>
+                  </NavLink>
                </div>
             ))}
       </div>
