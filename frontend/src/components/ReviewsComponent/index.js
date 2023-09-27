@@ -7,9 +7,10 @@ import { reviewCalc, easierDate } from "./helpers";
 import { thunkRestoreUser } from "../../store/session";
 import PostReviewButton from "./postReviewButton";
 import OpenModalButton from "../OpenModalButton";
-import DeleteModal from "../DeleteSpotModal";
-import "./reviews.css";
 import DeleteReviewModal from "../DeleteReviewModal";
+import DeleteModal from "../DeleteSpotModal";
+import RatingBanner from "../SingleSpot/starReviewBanner";
+import "./reviews.css";
 
 function ReviewsComponent() {
    const dispatch = useDispatch();
@@ -63,7 +64,7 @@ function ReviewsComponent() {
       }
       const updatedReviewsArr = easierDate(reviewsArr);
       setUpdatedReviewArray(updatedReviewsArr);
-   }, [reviews]);
+   }, [reviews, user]);
 
    useEffect(() => {
       if (hasReview || isOwner) {
@@ -75,21 +76,11 @@ function ReviewsComponent() {
 
    const clickedPostReview = () => {};
    const clickedDelete = () => {};
-
+   console.log("this is the updated", updatedReviewArray);
    return (
       <>
          <div>
-            <div className="avgReviewDiv">
-               <i className="fa-solid fa-star"></i>
-               <p>{avgRating || "New"}</p>
-               <p>
-                  {reviewArrLength < 1
-                     ? ""
-                     : reviewArrLength === 1
-                     ? `${reviewArrLength} review`
-                     : `${reviewArrLength} reviews`}
-               </p>
-            </div>
+            <RatingBanner spot={spotInfo} />
             <div>
                {showPostReviewButton && isLoggedIn && (
                   <OpenModalButton
@@ -109,8 +100,12 @@ function ReviewsComponent() {
             updatedReviewArray.map((review) => (
                <>
                   <div>
-                     <p>{review.User.firstName}</p>
-                     <p>{review.monthyear}</p>
+                     <div>
+                        <p>
+                           {review.User.firstName || review.User.user.firstName}
+                        </p>
+                        <p>{review.monthyear}</p>
+                     </div>
                      <p>{review.review}</p>
                   </div>
                   {isLoggedIn && review.userId == user.user.id && (

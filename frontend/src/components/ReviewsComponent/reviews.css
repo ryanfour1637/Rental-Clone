@@ -1,3 +1,7 @@
 .avgReviewDiv {
    display: flex;
 }
+
+.ratingDiv {
+   justify-content: flex-start;
+}
