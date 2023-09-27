@@ -54,7 +54,11 @@ function ReviewsComponent() {
       setReviewArrLength(reviewsArr.length);
       const avgReview = reviewCalc(reviewsArr);
       const avgReviewDec = Math.round(avgReview * 100) / 100;
-      setAvgRating(avgReviewDec.toFixed(1));
+      if (typeof avgReviewDec.toFixed(1) === "number") {
+         setAvgRating(avgReviewDec.toFixed(1));
+      } else {
+         setAvgRating("New!");
+      }
       const updatedReviewsArr = easierDate(reviewsArr);
       setUpdatedReviewArray(updatedReviewsArr);
    }, [reviews]);
