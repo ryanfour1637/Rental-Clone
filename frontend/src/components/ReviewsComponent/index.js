@@ -34,17 +34,19 @@ function ReviewsComponent() {
    useEffect(() => {
       if (Object.values(spotInfo).length > 0) {
          const reviewsArr = Object.values(reviews);
-         let isUser = user.user.id !== undefined;
-         setIsLoggedIn(isUser);
-
-         let review = reviewsArr.some(
-            (review) => review.userId == user.user.id
-         );
-
-         setHasReview(review);
-
-         let owner = user.user.id == spotInfo.ownerId;
-         setIsOwner(owner);
+         if (user.user == null) {
+            setIsLoggedIn(false);
+            setIsOwner(false);
+            setHasReview(false);
+         } else {
+            setIsLoggedIn(true);
+            let owner = user.user.id == spotInfo.ownerId;
+            setIsOwner(owner);
+            let review = reviewsArr.some(
+               (review) => review.userId == user.user.id
+            );
+            setHasReview(review);
+         }
       }
    }, [reviews, user, spotInfo]);
 
@@ -54,7 +56,7 @@ function ReviewsComponent() {
       setReviewArrLength(reviewsArr.length);
       const avgReview = reviewCalc(reviewsArr);
       const avgReviewDec = Math.round(avgReview * 100) / 100;
-      if (typeof avgReviewDec.toFixed(1) === "number") {
+      if (!isNaN(avgReviewDec.toFixed(1))) {
          setAvgRating(avgReviewDec.toFixed(1));
       } else {
          setAvgRating("New!");
@@ -80,14 +82,14 @@ function ReviewsComponent() {
             <div className="avgReviewDiv">
                <i className="fa-solid fa-star"></i>
                <p>{avgRating || "New"}</p>
+               <p>
+                  {reviewArrLength < 1
+                     ? ""
+                     : reviewArrLength === 1
+                     ? `${reviewArrLength} review`
+                     : `${reviewArrLength} reviews`}
+               </p>
             </div>
-            <p>
-               {reviewArrLength < 1
-                  ? "new"
-                  : reviewArrLength === 1
-                  ? `${reviewArrLength} review`
-                  : `${reviewArrLength} reviews`}
-            </p>
             <div>
                {showPostReviewButton && isLoggedIn && (
                   <OpenModalButton
@@ -106,12 +108,12 @@ function ReviewsComponent() {
          {updatedReviewArray &&
             updatedReviewArray.map((review) => (
                <>
-                  <div key={review.id}>
+                  <div>
                      <p>{review.User.firstName}</p>
                      <p>{review.monthyear}</p>
                      <p>{review.review}</p>
                   </div>
-                  {review.userId == user.user.id && (
+                  {isLoggedIn && review.userId == user.user.id && (
                      <div>
                         <OpenModalButton
                            buttonText="Delete"
