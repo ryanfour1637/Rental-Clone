@@ -99,14 +99,14 @@ function ReviewsComponent() {
          {updatedReviewArray &&
             updatedReviewArray.map((review) => (
                <>
-                  <div>
-                     <div>
-                        <p>
+                  <div className="reviewDiv">
+                     <div className="reviewInfoDiv">
+                        <p className="nameInfo">
                            {review.User.firstName || review.User.user.firstName}
                         </p>
-                        <p>{review.monthyear}</p>
+                        <p className="monthInfo">{review.monthyear}</p>
                      </div>
-                     <p>{review.review}</p>
+                     <p className="reviewInfo">{review.review}</p>
                   </div>
                   {isLoggedIn && review.userId == user.user.id && (
                      <div>
