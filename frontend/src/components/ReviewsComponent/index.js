@@ -109,7 +109,7 @@ function ReviewsComponent() {
                      <p className="reviewInfo">{review.review}</p>
                   </div>
                   {isLoggedIn && review.userId == user.user.id && (
-                     <div>
+                     <div className="buttonDiv">
                         <OpenModalButton
                            buttonText="Delete"
                            onButtonClick={clickedDelete}
