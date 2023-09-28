@@ -4,7 +4,7 @@ import "./stars.css";
 function StarRating({ stars, setStars }) {
    const [hover, setHover] = useState();
    return (
-      <div>
+      <div className="starsDiv">
          {[...Array(5)].map((star, i) => {
             i += 1;
             return (

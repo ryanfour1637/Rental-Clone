@@ -45,6 +45,8 @@ h3 {
    border: 3px pink solid;
    border-radius: 5%;
    width: 325px;
+   margin-top: 15px;
+   margin-bottom: 15px;
 }
 
 .topRightBottomDiv {
