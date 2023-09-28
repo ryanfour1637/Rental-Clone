@@ -4,6 +4,7 @@ import { useParams, NavLink } from "react-router-dom";
 import { thunkCreateReview } from "../../store/reviews";
 import { useModal } from "../../context/Modal";
 import StarRating from "./stars";
+import "./postReviews.css";
 
 function PostReviewButton({ spotId }) {
    const dispatch = useDispatch();
@@ -15,7 +16,6 @@ function PostReviewButton({ spotId }) {
    const [ratingNotSelected, setRatingNotSelected] = useState(null);
 
    const clickedSubmit = async (e) => {
-     
       e.preventDefault();
       const reviewToPost = {
          review: reviewText,
@@ -27,14 +27,15 @@ function PostReviewButton({ spotId }) {
    };
 
    return (
-      <>
-         <h2>How was your stay?</h2>
+      <div className="reviewModal">
+         <h2 className="reviewTitle">How was your stay?</h2>
          <form onSubmit={clickedSubmit}>
             <textarea
                value={reviewText}
                onChange={(e) => setReviewText(e.target.value)}
                placeholder="Leave your review here..."
                rows="5"
+               className="reviewText"
             ></textarea>
             <StarRating
                stars={ratingNotSelected}
@@ -47,7 +48,7 @@ function PostReviewButton({ spotId }) {
                Submit Your Review
             </button>
          </form>
-      </>
+      </div>
    );
 }
 

@@ -1,0 +1,21 @@
+.reviewModal {
+   width: 450px;
+   border: 4px black solid;
+   border-radius: 10px;
+   background-color: white;
+}
+
+#modal-content {
+   background-color: transparent;
+}
+
+.reviewTitle {
+   text-align: center;
+}
+
+.reviewText {
+   width: 420px;
+   margin-left: 13px;
+   border: 2px black solid;
+   height: 125px;
+}
