@@ -44,6 +44,7 @@ function PostReviewButton({ spotId }) {
             <button
                type="submit"
                disabled={reviewText.length < 10 || ratingNotSelected === null}
+               className="reviewSubmit"
             >
                Submit Your Review
             </button>

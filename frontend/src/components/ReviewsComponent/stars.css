@@ -11,3 +11,21 @@
    background-color: transparent;
    border: none;
 }
+
+.starsDiv {
+   display: flex;
+   justify-content: center;
+   font-size: larger;
+   font-weight: bolder;
+}
+
+.reviewSubmit {
+   width: 365px;
+   margin-left: 16px;
+   height: 45px;
+   margin-bottom: 15px;
+   background-color: blueviolet;
+   color: white;
+   font-weight: bold;
+   border: 3px solid black;
+}
