@@ -1,6 +1,6 @@
 .reviewModal {
    width: 450px;
-   border: 4px black solid;
+   border: 4px pink solid;
    border-radius: 10px;
    background-color: white;
 }
@@ -16,6 +16,7 @@
 .reviewText {
    width: 420px;
    margin-left: 13px;
-   border: 2px black solid;
+   border: 3px black solid;
    height: 125px;
+   border-radius: 3px;
 }
