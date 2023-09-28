@@ -5,3 +5,26 @@
 .ratingDiv {
    justify-content: flex-start;
 }
+
+.reviewInfoDiv {
+   display: flex;
+   flex-direction: column;
+}
+
+.nameInfo {
+   font-size: larger;
+   color: black;
+   font-weight: bold;
+   margin: 0;
+}
+
+.monthInfo {
+   font-size: medium;
+   color: grey;
+   margin-top: 5px;
+}
+
+.reviewInfo {
+   margin-bottom: 5px;
+   margin-top: 0;
+}
