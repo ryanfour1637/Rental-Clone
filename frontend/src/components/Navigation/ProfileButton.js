@@ -5,6 +5,7 @@ import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 import { useHistory } from "react-router-dom";
+import "./profileCSS.css";
 
 function ProfileButton({ user }) {
    const history = useHistory();
@@ -54,31 +55,32 @@ function ProfileButton({ user }) {
          <ul className={ulClassName} ref={ulRef}>
             {user ? (
                <>
-                  <li>{`Hello, ${user.firstName}`}</li>
-                  <li>{user.email}</li>
-                  <li>
-                     <button onClick={manageSpots}>Manage Spots</button>
+                  <li className="helloClass">{`Hello, ${user.firstName}`}</li>
+                  <li className="emailClass">{user.email}</li>
+                  <li className="manageSpotsLi">
+                     <button onClick={manageSpots} className="manageButton">
+                        Manage Spots
+                     </button>
                   </li>
-                  <li>
-                     <button onClick={logout}>Log Out</button>
+                  <li className="logoutLi">
+                     <button onClick={logout} className="logoutButton">
+                        Log Out
+                     </button>
                   </li>
                </>
             ) : (
                <>
-                  <li>
-                     <OpenModalButton
-                        buttonText="Log In"
-                        onButtonClick={closeMenu}
-                        modalComponent={<LoginFormModal />}
-                     />
-                  </li>
-                  <li>
-                     <OpenModalButton
-                        buttonText="Sign Up"
-                        onButtonClick={closeMenu}
-                        modalComponent={<SignupFormModal />}
-                     />
-                  </li>
+                  <OpenModalButton
+                     buttonText="Log In"
+                     onButtonClick={closeMenu}
+                     modalComponent={<LoginFormModal />}
+                  />
+
+                  <OpenModalButton
+                     buttonText="Sign Up"
+                     onButtonClick={closeMenu}
+                     modalComponent={<SignupFormModal />}
+                  />
                </>
             )}
          </ul>

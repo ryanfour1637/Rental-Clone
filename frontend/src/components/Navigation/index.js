@@ -11,7 +11,7 @@ function Navigation({ isLoaded }) {
       <div className="navMainDiv">
          <NavLink exact to="/">
             <img
-               src="https://media.designrush.com/inspiration_images/135187/conversions/_1511452487_364_Airbnb-mobile.jpg"
+               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlIAJbhm4yUZl6gN4WV89rflO2nTXWx7LS3g&usqp=CAU"
                alt="Home"
                width="24"
                height="24"

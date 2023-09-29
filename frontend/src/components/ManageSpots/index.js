@@ -37,7 +37,7 @@ function ManageSpots() {
 
    return (
       <div>
-         <h2 className="h2manage">Manage Spots</h2>
+         <h2 className="h2manage">Manage Your Spots</h2>
          <div className="outerDiv">
             {ownerSpotArr.length === 0 && (
                <button onClick={navToNewSpot} className="buttonCreate">
