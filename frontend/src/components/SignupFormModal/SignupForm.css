@@ -1,0 +1,35 @@
+.signupDiv {
+   width: 400px;
+   background-color: white;
+   border: 3px solid purple;
+   border-radius: 5px;
+}
+
+.signupFormDiv {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+}
+
+.signup {
+   margin-left: 137.5px;
+}
+
+.signupInputs {
+   width: 380px;
+   margin-bottom: 7.5px;
+   border: 2px solid purple;
+   border-radius: 3px;
+}
+
+.signupSubmitButton {
+   margin-top: 15px;
+   width: 380px;
+   margin-left: 10px;
+   height: 40px;
+   background-color: blueviolet;
+   color: antiquewhite;
+   border-radius: 3px;
+   margin-bottom: 25px;
+   font-weight: bold;
+}
