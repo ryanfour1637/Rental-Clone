@@ -43,40 +43,49 @@ function LoginFormModal() {
    };
 
    return (
-      <>
-         <h1>Log In</h1>
+      <div className="loginPage">
+         <h1 className="logInText">Log In</h1>
          <form onSubmit={handleSubmit}>
-            <label>
-               Username or Email
-               <input
-                  type="text"
-                  value={credential}
-                  onChange={(e) => setCredential(e.target.value)}
-                  required
-               />
-            </label>
-            <label>
-               Password
-               <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-               />
-            </label>
-            {errors.credential && <p>{errors.credential}</p>}
+            <div className="userNameDiv">
+               <label>
+                  <input
+                     type="text"
+                     value={credential}
+                     onChange={(e) => setCredential(e.target.value)}
+                     required
+                     placeholder="Username or Email"
+                     className="userInput"
+                  />
+               </label>
+               <label>
+                  <input
+                     type="password"
+                     value={password}
+                     onChange={(e) => setPassword(e.target.value)}
+                     required
+                     placeholder="Password"
+                     className="userPassword"
+                  />
+               </label>
+               {errors.credential && <p>{errors.credential}</p>}
+            </div>
             <button
                type="submit"
                disabled={credential.length < 4 || password.length < 6}
+               className="loginSubmitButton"
             >
                Log In
             </button>
          </form>
 
-         <button type="submit" onClick={demoUserSubmit}>
+         <button
+            type="submit"
+            onClick={demoUserSubmit}
+            className="demoUserButton"
+         >
             Log in as Demo User
          </button>
-      </>
+      </div>
    );
 }
 

@@ -1,0 +1,56 @@
+.loginPage {
+   display: flex;
+   flex-direction: column;
+   background-color: white;
+   width: 400px;
+   border-radius: 5px;
+   border: 2px solid purple;
+}
+
+.logInText {
+   margin: 0 auto;
+   margin-top: 5px;
+}
+
+.userNameDiv {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+}
+
+.userInput {
+   width: 380px;
+   margin-top: 15px;
+   border: 2px solid purple;
+   border-radius: 3px;
+   background-color: azure;
+}
+
+.userPassword {
+   width: 380px;
+   margin-top: 7.5px;
+   border: 2px solid purple;
+   border-radius: 3px;
+   background-color: azure;
+}
+
+.loginSubmitButton {
+   margin-top: 15px;
+   width: 380px;
+   margin-left: 10px;
+   height: 40px;
+   background-color: blueviolet;
+   color: antiquewhite;
+   border-radius: 3px;
+   margin-bottom: 25px;
+   font-weight: bold;
+}
+
+.demoUserButton {
+   margin-bottom: 25px;
+   width: 150px;
+   margin-left: 125px;
+   background-color: green;
+   color: whitesmoke;
+   font-weight: bold;
+}
