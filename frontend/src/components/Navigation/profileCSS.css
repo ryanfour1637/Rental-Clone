@@ -1,0 +1,58 @@
+.profile-dropdown {
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start;
+   border: 2px black solid;
+   list-style-type: none;
+   width: 150px;
+   padding: 0;
+}
+
+.profile-dropdown > button {
+   margin-top: 5px;
+   margin-bottom: 5px;
+   width: 75px;
+   margin-left: 10px;
+   background-color: purple;
+   color: antiquewhite;
+   font-weight: bolder;
+}
+
+.helloClass {
+   margin: 0 auto;
+   color: purple;
+   font-weight: bold;
+   margin-top: 5px;
+}
+
+.emailClass {
+   margin: 0 auto;
+   color: purple;
+   font-weight: bold;
+   margin-top: 5px;
+   padding-bottom: 5px;
+   margin-bottom: 5px;
+   border-bottom: 2px solid purple;
+}
+
+.manageSpotsLi {
+   margin: 0 auto;
+}
+
+.manageButton {
+   background-color: purple;
+   color: antiquewhite;
+   font-weight: bolder;
+   margin-bottom: 10px;
+}
+
+.logoutLi {
+   margin: 0 auto;
+}
+
+.logoutButton {
+   margin-bottom: 5px;
+   background-color: green;
+   color: whitesmoke;
+   font-weight: bold;
+}

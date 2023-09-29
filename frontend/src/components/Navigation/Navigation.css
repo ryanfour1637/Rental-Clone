@@ -6,6 +6,8 @@
    display: flex;
    flex-direction: row;
    justify-content: space-between;
+   margin-bottom: 10px;
+   border-bottom: 1px solid grey;
 }
 
 .navRightSide {
@@ -13,13 +15,16 @@
 }
 
 .airbnblogo {
-   width: 150px;
+   width: 50px;
+   margin-left: 150px;
 }
 
 .createSpotDiv {
    margin-right: 20px;
+   margin-top: 15px;
 }
 
 .loginDiv {
    padding-right: 150px;
+   margin-top: 15px;
 }
