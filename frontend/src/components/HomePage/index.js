@@ -36,6 +36,7 @@ function HomePage() {
                         <p>{`${spot.city}, ${spot.state}`}</p>
                         <div className="ratingDiv">
                            <i className="fa-solid fa-star"></i>
+                           <p>·</p>
                            <p>{spot.avgRating?.toFixed(1) || "New"}</p>
                         </div>
                      </div>

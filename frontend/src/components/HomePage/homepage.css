@@ -57,3 +57,7 @@ img {
    width: 300px;
    border: 1px black solid;
 }
+
+.tileDivs p {
+   text-decoration: none;
+}
