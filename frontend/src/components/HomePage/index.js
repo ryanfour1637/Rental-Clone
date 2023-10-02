@@ -11,7 +11,8 @@ function HomePage() {
    // may need to add state variables here to pull out from the useState selector to ensure that it renders properly. but I dont think so.
    useEffect(() => {
       dispatch(thunkReadSpots());
-   }, [dispatch]);
+      console.log(spots);
+   }, [dispatch, spots]);
 
    if (Object.keys(spots).length === 0) {
       dispatch(thunkReadSpots());
