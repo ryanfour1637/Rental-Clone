@@ -35,7 +35,7 @@ function SpotForm() {
    const [image5, setImage5] = useState("");
    const [errors, setErrors] = useState({});
 
-   console.log(id);
+   // console.log(id);
    // getting my spot data out of the store if there is an id
    // but I think I need a useEffect to populate the data in my store I think
 
