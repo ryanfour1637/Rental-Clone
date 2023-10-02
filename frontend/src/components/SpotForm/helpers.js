@@ -26,6 +26,8 @@ export function checkForInputErrorsCreate(
       errors["description"] = "Description needs a minimum of 30 characters";
    if (description.length < 1)
       errors["description"] = "Description is required.";
+   if (description.length > 150)
+      errors["description"] = "Description must be less than 150 characters";
    if (name.length < 1) errors["name"] = "Name is required";
    if (price.length < 1) errors["price"] = "Price is required ";
    if (isNaN(price)) errors["price"] = "Price is required and must be a number";
