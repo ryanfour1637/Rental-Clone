@@ -128,7 +128,7 @@ router.get("/", async (req, res) => {
    res.json(finalObj);
 });
 
-router.post("/", requireAuth, validateNewSpot, async (req, res) => {
+router.post("/", requireAuth, async (req, res) => {
    const id = req.user.dataValues.id;
    const { address, city, state, country, name, description, price } = req.body;
 
@@ -218,8 +218,6 @@ router.post("/:spotId/images", requireAuth, async (req, res, next) => {
       }
    }
 });
-
-
 
 router.put("/:spotId", requireAuth, validateNewSpot, async (req, res) => {
    const spotId = parseInt(req.params.spotId);
