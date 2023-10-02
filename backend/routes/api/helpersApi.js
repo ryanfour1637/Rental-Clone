@@ -61,7 +61,7 @@ const validateNewSpot = [
       .withMessage("Country is required"),
    check("name")
       .exists({ checkFalsy: true })
-      .isLength({ min: 1, max: 50 })
+      .isLength({ min: 1 })
       .withMessage("Name must be less than 50 characters"),
    check("description")
       .exists({ checkFalsy: true })
